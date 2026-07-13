@@ -1,0 +1,25 @@
+footer{
+
+    margin-top:80px;
+
+    padding:40px 80px;
+
+    border-top:1px solid #ddd;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    font-size:14px;
+
+    color:#666;
+
+}
+
+footer h4{
+
+    color:black;
+
+    margin-bottom:10px;
+
+}
