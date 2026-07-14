@@ -1,0 +1,60 @@
+.table-box{
+    background:#fff;
+    border:1px solid #ddd;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f3f4f6;
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #ddd;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#fafafa;
+}
+
+.view,
+.edit{
+    border:none;
+    background:none;
+    color:#2563eb;
+    cursor:pointer;
+    margin-right:10px;
+}
+
+.footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px;
+}
+
+.pagination{
+    display:flex;
+    gap:5px;
+}
+
+.pagination button{
+    width:30px;
+    height:30px;
+    border:1px solid #ccc;
+    background:white;
+    cursor:pointer;
+}
+
+.pagination .active{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}

@@ -1,0 +1,39 @@
+.staff-page{
+    display:flex;
+}
+
+.staff-content{
+    flex:1;
+    padding:30px;
+    background:#f7f8fc;
+    min-height:100vh;
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.header h1{
+    font-size:34px;
+    margin-bottom:5px;
+}
+
+.header p{
+    color:#666;
+}
+
+.add-btn{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.add-btn:hover{
+    background:#1d4ed8;
+}
