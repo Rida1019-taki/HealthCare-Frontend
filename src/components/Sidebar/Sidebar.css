@@ -1,0 +1,35 @@
+.sidebar{
+
+    width:240px;
+
+    background:#ececec;
+
+    min-height:100vh;
+
+    padding:20px;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+    margin-top:20px;
+
+}
+
+.sidebar li{
+
+    padding:12px;
+
+    cursor:pointer;
+
+}
+
+.active{
+
+    background:#555;
+
+    color:white;
+
+}

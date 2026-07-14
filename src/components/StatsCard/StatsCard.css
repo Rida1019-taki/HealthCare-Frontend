@@ -1,0 +1,27 @@
+.card{
+
+    background:white;
+
+    padding:20px;
+
+    border:1px solid #ddd;
+
+}
+
+.card h5{
+
+    font-size:11px;
+
+    color:gray;
+
+    margin-bottom:10px;
+
+}
+
+.card h2{
+
+    color:#0d6efd;
+
+    font-size:34px;
+
+}
