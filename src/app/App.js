@@ -1,8 +1,9 @@
-import Home from '../pages/Home/Home';
+/*import Home from '../pages/Home/Home';*/
+import Dashboard from '../pages/Dashboard/Dashboard';
 import './App.css';
 
 function App() {
-  return <Home/>;
+  return <Dashboard/>;
 }
 
 export default App;

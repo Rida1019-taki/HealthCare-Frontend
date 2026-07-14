@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar/Navbar";
-import Sidebar from "../components/Sidebar/Sidebar";
-import StatsCard from "../components/StatsCard/StatsCard";
-import ActivityTable from "../components/ActivityTable/ActivityTable";
-import Alerts from "../components/Alerts/Alerts";
-import Staff from "../components/Staff/Staff";
 import "./Dashboard.css";
+import Navbar from "../../components/Navbar/Navbar";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import StatsCard from "../../components/StatsCard/StatsCard";
+import ActivityTable from "../../components/ActivityTable/ActivityTable";
+import Alerts from "../../components/Alerts/Alerts";
+import StaffOverview from "../../components/StaffOverview/StaffOverview";
 
 export default function Dashboard(){
     return(
@@ -46,7 +46,7 @@ export default function Dashboard(){
                         <ActivityTable/>
                         <div className="right">
                             <Alerts/>
-                            <Staff/>
+                            <StaffOverview/>
                         </div>
                     </div>
                 </main>

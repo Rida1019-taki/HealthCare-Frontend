@@ -1,0 +1,37 @@
+.tableBox{
+    background: white;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.tableBox h3{
+    padding: 18px;
+    font-size: 20px;
+    border-bottom: 1px solid #dcdfe6;
+}
+
+.tableBox table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableBox th{
+    background: #f5f7fa;
+    text-align: left;
+    padding: 14px;
+    font-size: 14px;
+    color: #555;
+    border-bottom: 1px solid #dcdfe6;
+}
+
+.tableBox td{
+    padding: 16px 14px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+    color: #333;
+}
+
+.tableBox tr:hover{
+    background: #f9fafb;
+}
