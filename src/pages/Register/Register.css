@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #f5f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.register-card {
+    width: 100%;
+    max-width: 450px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, .08);
+    animation: fade .4s ease;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.logo {
+    width: 65px;
+    height: 65px;
+    margin: auto;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    font-size: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.register-card h2 {
+    margin-top: 20px;
+    text-align: center;
+    color: #222;
+}
+
+.subtitle {
+    text-align: center;
+    color: #777;
+    margin-top: 8px;
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0 15px;
+    margin-bottom: 5px;
+    transition: .3s;
+}
+
+.input-box:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, .12);
+}
+
+.input-box svg {
+    color: #888;
+    font-size: 16px;
+}
+
+.input-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 14px;
+    font-size: 15px;
+    background: transparent;
+}
+
+.eye-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    font-size: 17px;
+}
+
+small {
+    display: block;
+    color: #e53935;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.checkbox input {
+    margin-top: 4px;
+}
+
+.checkbox span {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.register-btn {
+    width: 100%;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
+    margin-top: 10px;
+}
+
+.register-btn:hover {
+    background: #1d4ed8;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.separator::before,
+.separator::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #ddd;
+}
+
+.separator span {
+    padding: 0 15px;
+    color: #777;
+    font-size: 14px;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-btn {
+    flex: 1;
+    border: 1px solid #ddd;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 500;
+}
+
+.social-btn:hover {
+    background: #f3f4f6;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 25px;
+    color: #666;
+}
+
+.login-link a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width:600px) {
+
+    .register-card {
+        padding: 25px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+}

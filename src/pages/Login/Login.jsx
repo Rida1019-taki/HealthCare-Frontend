@@ -1,0 +1,140 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+import {
+    FaEnvelope,
+    FaLock,
+    FaEye,
+    FaEyeSlash,
+} from "react-icons/fa";
+
+import "./Login.css";
+
+const schema = yup.object({
+    email: yup
+        .string()
+        .email("Adresse e-mail invalide")
+        .required("L'adresse e-mail est obligatoire"),
+
+    password: yup
+        .string()
+        .required("Le mot de passe est obligatoire")
+        .min(8, "Minimum 8 caractères"),
+});
+
+function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(schema),
+    });
+
+    const onSubmit = (data) => {
+        console.log(data);
+    };
+
+    return (
+        <div className="login-page">
+            <div className="login-card">
+
+                <div className="logo">+</div>
+
+                <h2>Connexion</h2>
+
+                <p className="subtitle">
+                    Connectez-vous à votre compte
+                </p>
+
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    <label>Adresse e-mail</label>
+
+                    <div className="input-box">
+                        <FaEnvelope />
+
+                        <input
+                            type="email"
+                            placeholder="exemple@email.com"
+                            {...register("email")}
+                        />
+                    </div>
+
+                    <small>{errors.email?.message}</small>
+
+                    <label>Mot de passe</label>
+
+                    <div className="input-box">
+
+                        <FaLock />
+
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="********"
+                            {...register("password")}
+                        />
+
+                        <button
+                            type="button"
+                            className="eye-btn"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+
+                    </div>
+
+                    <small>{errors.password?.message}</small>
+
+                    <div className="options">
+
+                        <label className="remember">
+                            <input type="checkbox" />
+                            Se souvenir de moi
+                        </label>
+
+                        <Link to="/forgot-password" className="forgot">
+                            Mot de passe oublié ?
+                        </Link>
+
+                    </div>
+
+                    <button type="submit" className="login-btn">
+                        Se connecter
+                    </button>
+
+                </form>
+
+                <div className="separator">
+                    <span>OU</span>
+                </div>
+
+                <div className="social-buttons">
+
+                    <button type="button" className="social-btn">
+                        Continuer avec Google
+                    </button>
+
+                    <button type="button" className="social-btn">
+                        Continuer avec Facebook
+                    </button>
+
+                </div>
+
+                <p className="register-link">
+                    Vous n'avez pas de compte ?
+                    <Link to="/register"> S'inscrire</Link>
+                </p>
+
+            </div>
+        </div>
+    );
+}
+
+export default Login;
