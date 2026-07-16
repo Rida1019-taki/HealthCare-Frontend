@@ -1,17 +1,57 @@
-import './Navbar.css';
+import "./Navbar.css";
+import { NavLink } from "react-router-dom";
 
-export default function Navbar(){
-    return(
+function Navbar() {
+    return (
         <nav className="navbar">
-            <h2 className="logo">HealthCare</h2>
+            <h2 className="navbar-logo">HealthCare</h2>
 
-            <ul>
-                <li className="active">Home</li>
-                <li>Dashboard</li>
-                <li>Patients</li>
-                <li>About</li>
+            <ul className="navbar-links">
+                <li>
+                    <NavLink
+                        to="/"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                        Home
+                    </NavLink>
+                </li>
+
+                <li>
+                    <NavLink
+                        to="/dashboard"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                        Dashboard
+                    </NavLink>
+                </li>
+
+                <li>
+                    <NavLink
+                        to="/patients"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                        Patients
+                    </NavLink>
+                </li>
+
+                <li>
+                    <NavLink
+                        to="/about"
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                    >
+                        About
+                    </NavLink>
+                </li>
             </ul>
-            <span className="pofile">⚪</span>
+
+            <div className="navbar-profile">
+                <img
+                    src="https://i.pravatar.cc/40"
+                    alt="Profile"
+                />
+            </div>
         </nav>
     );
 }
+
+export default Navbar;

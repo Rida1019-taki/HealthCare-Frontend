@@ -7,6 +7,7 @@ import Doctors from "../pages/Doctors/Doctors";
 import './App.css';
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
+import About from "../pages/About/About";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/medicalRecords" element={<MedicalRecords />} />
         <Route path="/patients" element={<Patients />} />
         <Route path="/doctors" element={<Doctors />} />
+        <Route path="/about" element={<About/>} />
       </Routes>
   );
 }
