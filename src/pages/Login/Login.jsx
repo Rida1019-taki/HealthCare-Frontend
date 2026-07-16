@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import api from "../api/axios";
-
+import { Link, useNavigate } from "react-router-dom";
 import {
     FaEnvelope,
     FaLock,
@@ -12,6 +10,7 @@ import {
     FaEyeSlash,
 } from "react-icons/fa";
 
+import api from "../../services/api";
 import "./Login.css";
 
 const schema = yup.object({
@@ -28,6 +27,7 @@ const schema = yup.object({
 
 function Login() {
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -38,61 +38,55 @@ function Login() {
     });
 
     const onSubmit = async (data) => {
-  try {
-    const response = await api.post("/login", data);
+        try {
+            console.log("Request:", data);
 
-    localStorage.setItem("token", response.data.token);
-    localStorage.setItem("userId", response.data.userId);
-    localStorage.setItem("role", response.data.role);
-    localStorage.setItem("profileId", response.data.profileId);
+            const response = await api.post("/login", {
+                email: data.email.trim(),
+                password: data.password,
+            });
 
-    console.log(response.data);
+            console.log("Response:", response.data);
 
-    alert("Connexion réussie !");
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("role", response.data.role);
+            localStorage.setItem("profileId", response.data.profileId);
 
-    navigate("/dashboard");
+            navigate("/dashboard");
 
-  } catch (error) {
-    console.error(error);
+        } catch (error) {
+            console.error("Status:", error.response?.status);
+            console.error("Data:", error.response?.data);
+        }
+    };
 
-    alert(
-      error.response?.data?.message ||
-      "Email ou mot de passe incorrect."
-    );
-  }
-};
     return (
         <div className="login-page">
             <div className="login-card">
-
                 <div className="logo">+</div>
 
                 <h2>Connexion</h2>
-
                 <p className="subtitle">
                     Connectez-vous à votre compte
                 </p>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-
                     <label>Adresse e-mail</label>
 
                     <div className="input-box">
                         <FaEnvelope />
-
                         <input
                             type="email"
                             placeholder="exemple@email.com"
                             {...register("email")}
                         />
                     </div>
-
                     <small>{errors.email?.message}</small>
 
                     <label>Mot de passe</label>
 
                     <div className="input-box">
-
                         <FaLock />
 
                         <input
@@ -108,13 +102,11 @@ function Login() {
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
-
                     </div>
 
                     <small>{errors.password?.message}</small>
 
                     <div className="options">
-
                         <label className="remember">
                             <input type="checkbox" />
                             Se souvenir de moi
@@ -123,36 +115,17 @@ function Login() {
                         <Link to="/forgot-password" className="forgot">
                             Mot de passe oublié ?
                         </Link>
-
                     </div>
 
                     <button type="submit" className="login-btn">
                         Se connecter
                     </button>
-
                 </form>
-
-                <div className="separator">
-                    <span>OU</span>
-                </div>
-
-                <div className="social-buttons">
-
-                    <button type="button" className="social-btn">
-                        Continuer avec Google
-                    </button>
-
-                    <button type="button" className="social-btn">
-                        Continuer avec Facebook
-                    </button>
-
-                </div>
 
                 <p className="register-link">
                     Vous n'avez pas de compte ?
                     <Link to="/register"> S'inscrire</Link>
                 </p>
-
             </div>
         </div>
     );

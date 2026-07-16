@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/auth",
+  baseURL: "https://healthcare-syst-me-de-gestion-m-dicale-9b6h.onrender.com/auth",
 });
 
 api.interceptors.request.use((config) => {

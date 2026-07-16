@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import api from "../api/axios";
-import { useNavigate } from "react-router-dom";
+import api from "../../services/api";
+import { useNavigate , Link } from "react-router-dom";
 
 import {
     FaUser,
@@ -77,11 +76,9 @@ function Register() {
             localStorage.setItem("profileId", response.data.profileId);
 
             console.log(response.data);
-            alert("Inscription réussie !");
             navigate("/login");
         } catch (error) {
             console.error(error);
-            alert(error.response?.data?.message || "Erreur lors de l'inscription");
         }
     };
 

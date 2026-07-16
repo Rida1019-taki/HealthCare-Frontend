@@ -27,27 +27,22 @@
     list-style: none;
 }
 
-.navbar-links a,
-.navbar-links a:link,
-.navbar-links a:visited,
-.navbar-links a:hover,
-.navbar-links a:active,
-.navbar-links a:focus,
-.navbar-links a:focus-visible {
+.navbar-links a {
     text-decoration: none;
     color: #555;
     font-size: 17px;
     font-weight: 500;
-    outline: none;
     transition: color .3s ease;
 }
 
+/* لا تغير اللون عند المرور بالماوس */
 .navbar-links a:hover {
-    color: #2563eb;
+    color: #555;
 }
 
+/* الرابط النشط فقط */
 .navbar-links a.active {
-    color: #2563eb !important;
+    color: #2563eb;
     border-bottom: 2px solid #2563eb;
     padding-bottom: 4px;
 }
@@ -57,4 +52,28 @@
     height: 42px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.navbar-links a,
+.navbar-links a:link,
+.navbar-links a:visited,
+.navbar-links a:hover,
+.navbar-links a:focus,
+.navbar-links a:focus-visible,
+.navbar-links a:active {
+    text-decoration: none;
+    color: #555;
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.navbar-links a:hover {
+    color: #555;
+}
+
+.navbar-links a.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
 }
