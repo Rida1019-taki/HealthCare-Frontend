@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import api from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 import {
     FaUser,
@@ -14,10 +16,11 @@ import {
 
 import "./Register.css";
 
+
 const schema = yup.object({
-    fullname: yup
+    username: yup
         .string()
-        .required("Le nom est obligatoire")
+        .required("Le nom d'utilisateur est obligatoire")
         .min(3, "Minimum 3 caractères"),
 
     email: yup
@@ -28,7 +31,7 @@ const schema = yup.object({
     password: yup
         .string()
         .required("Le mot de passe est obligatoire")
-        .min(8, "Le mot de passe doit contenir au moins 8 caractères"),
+        .min(8, "Minimum 8 caractères"),
 
     confirmPassword: yup
         .string()
@@ -46,6 +49,7 @@ const schema = yup.object({
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const navigate = useNavigate();
 
     const {
         register,
@@ -55,8 +59,30 @@ function Register() {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
+
+    const onSubmit = async (data) => {
+        const registerData = {
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            role: "PATIENT",
+        };
+
+        try {
+            const response = await api.post("/register", registerData);
+
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("role", response.data.role);
+            localStorage.setItem("profileId", response.data.profileId);
+
+            console.log(response.data);
+            alert("Inscription réussie !");
+            navigate("/login");
+        } catch (error) {
+            console.error(error);
+            alert(error.response?.data?.message || "Erreur lors de l'inscription");
+        }
     };
 
     return (
@@ -71,17 +97,17 @@ function Register() {
                 </p>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <label>Nom complet</label>
+                    <label>Nom d'utilisateur</label>
 
                     <div className="input-box">
                         <FaUser />
                         <input
                             type="text"
                             placeholder="Jean Dupont"
-                            {...register("fullname")}
+                            {...register("username")}
                         />
                     </div>
-                    <small>{errors.fullname?.message}</small>
+                    <small>{errors.username?.message}</small>
 
                     <label>Adresse e-mail</label>
 
@@ -145,9 +171,9 @@ function Register() {
                         <input type="checkbox" {...register("terms")} />
 
                         <span>
-              J'accepte les conditions d'utilisation et la politique de
-              confidentialité.
-            </span>
+                            J'accepte les conditions d'utilisation et la politique de
+                            confidentialité.
+                        </span>
                     </div>
 
                     <small>{errors.terms?.message}</small>

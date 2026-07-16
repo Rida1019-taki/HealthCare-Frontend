@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import api from "../api/axios";
 
 import {
     FaEnvelope,
@@ -36,10 +37,30 @@ function Login() {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = (data) => {
-        console.log(data);
-    };
+    const onSubmit = async (data) => {
+  try {
+    const response = await api.post("/login", data);
 
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("userId", response.data.userId);
+    localStorage.setItem("role", response.data.role);
+    localStorage.setItem("profileId", response.data.profileId);
+
+    console.log(response.data);
+
+    alert("Connexion réussie !");
+
+    navigate("/dashboard");
+
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Email ou mot de passe incorrect."
+    );
+  }
+};
     return (
         <div className="login-page">
             <div className="login-card">
