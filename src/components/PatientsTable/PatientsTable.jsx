@@ -1,37 +1,28 @@
 import "./PatientsTable.css";
+import { useEffect, useState } from "react";
+import api from "../../services/api";
 
-const patients = [
-    {
-        name:"Sarah Jenkins",
-        email:"s.jenkins@example.com",
-        phone:"+1 (555) 012-3456"
-    },
-    {
-        name:"Marcus Thorne",
-        email:"mthorne.88@webmail.com",
-        phone:"+1 (555) 987-6543"
-    },
-    {
-        name:"Elena Rodriguez",
-        email:"elena.rod@provider.net",
-        phone:"+1 (555) 234-5678"
-    },
-    {
-        name:"David Chen",
-        email:"dchen@clinic-internal.com",
-        phone:"+1 (555) 456-7890"
-    },
-    {
-        name:"Aisha Khan",
-        email:"aisha.k@domain.com",
-        phone:"+1 (555) 765-4321"
-    }
-];
+export default function PatientsTable() {
 
-export default function PatientsTable(){
+    const [patients, setPatients] = useState([]);
 
-    return(
+    useEffect(() => {
+        getPatients();
+    }, []);
 
+    const getPatients = async () => {
+        try {
+            const response = await api.get("/api/patients");
+
+            // Spring Boot Page<ResponsePatientDTO>
+            setPatients(response.data.content);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    return (
         <div className="table-container">
 
             <table>
@@ -39,37 +30,37 @@ export default function PatientsTable(){
                 <thead>
 
                 <tr>
-
-                    <th>Name</th>
-
-                    <th>Email</th>
-
-                    <th>Phone</th>
-
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Téléphone</th>
+                    <th>Date de naissance</th>
                     <th>Actions</th>
-
                 </tr>
 
                 </thead>
 
                 <tbody>
 
-                {patients.map((patient,index)=>(
+                {patients.map((patient) => (
 
-                    <tr key={index}>
+                    <tr key={patient.id}>
 
-                        <td>{patient.name}</td>
+                        <td>{patient.nom}</td>
 
-                        <td>{patient.email}</td>
+                        <td>{patient.prenom}</td>
 
-                        <td>{patient.phone}</td>
+                        <td>{patient.telephone}</td>
+
+                        <td>{patient.dateNaissance}</td>
 
                         <td>
+                            <button className="profile-btn">
+                                View Profile
+                            </button>
 
-                            <button className="profile-btn">View Profile</button>
-
-                            <button className="edit-btn">Edit</button>
-
+                            <button className="edit-btn">
+                                Edit
+                            </button>
                         </td>
 
                     </tr>
@@ -81,21 +72,11 @@ export default function PatientsTable(){
             </table>
 
             <div className="footer">
-
-                <p>Showing 1-5 of 142 patients</p>
-
-                <div>
-
-                    <button>Previous</button>
-
-                    <button>Next</button>
-
-                </div>
-
+                <p>
+                    Showing {patients.length} patients
+                </p>
             </div>
 
         </div>
-
     );
-
 }

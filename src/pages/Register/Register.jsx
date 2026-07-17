@@ -40,6 +40,10 @@ const schema = yup.object({
         )
         .required("Veuillez confirmer votre mot de passe"),
 
+    role: yup
+        .string()
+        .required("Veuillez choisir un rôle"),
+
     terms: yup
         .boolean()
         .oneOf([true], "Veuillez accepter les conditions"),
@@ -64,11 +68,11 @@ function Register() {
             username: data.username,
             email: data.email,
             password: data.password,
-            role: "PATIENT",
+            role: data.role,
         };
 
         try {
-            const response = await api.post("/register", registerData);
+            const response = await api.post("/auth/register", registerData);
 
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("userId", response.data.userId);
@@ -117,7 +121,17 @@ function Register() {
                         />
                     </div>
                     <small>{errors.email?.message}</small>
+                    <label>Rôle</label>
 
+                    <div className="input-box">
+                        <select {...register("role")}>
+                            <option value="">Choisir un rôle</option>
+                            <option value="PATIENT">Patient</option>
+                            <option value="MEDECIN">Médecin</option>
+                        </select>
+                    </div>
+
+                    <small>{errors.role?.message}</small>
                     <label>Mot de passe</label>
 
                     <div className="input-box">

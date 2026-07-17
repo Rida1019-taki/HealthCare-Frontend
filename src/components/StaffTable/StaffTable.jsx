@@ -1,77 +1,82 @@
 import "./StaffTable.css";
-
-const doctors = [
-    {
-        name: "Dr. Sarah Lee",
-        specialty: "Cardiology",
-        email: "sarah@healthcore.com",
-        phone: "+1 (555) 123-4567",
-        status: "Available",
-    },
-    {
-        name: "Dr. James Bond",
-        specialty: "Surgery",
-        email: "james@healthcore.com",
-        phone: "+1 (555) 987-6543",
-        status: "Busy",
-    },
-    {
-        name: "Dr. Emma Wilson",
-        specialty: "Pediatrics",
-        email: "emma@healthcore.com",
-        phone: "+1 (555) 456-7890",
-        status: "Available",
-    },
-    {
-        name: "Dr. Michael Brown",
-        specialty: "Neurology",
-        email: "michael@healthcore.com",
-        phone: "+1 (555) 765-4321",
-        status: "On Leave",
-    },
-];
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api from "../../services/api";
 
 export default function StaffTable() {
+
+    const [doctors, setDoctors] = useState([]);
+
+    useEffect(() => {
+        getDoctors();
+    }, []);
+
+    const getDoctors = async () => {
+        try {
+
+            const response = await api.get("/api/medecins");
+
+            setDoctors(response.data.content);
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="table-container">
+
             <table>
+
                 <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Specialty</th>
+                    <th>Nom</th>
+                    <th>Spécialité</th>
                     <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
+                    <th>Téléphone</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
 
                 <tbody>
-                {doctors.map((doctor, index) => (
-                    <tr key={index}>
-                        <td>{doctor.name}</td>
-                        <td>{doctor.specialty}</td>
+
+                {doctors.map((doctor) => (
+
+                    <tr key={doctor.id}>
+
+                        <td>{doctor.nom}</td>
+
+                        <td>{doctor.specialite}</td>
+
                         <td>{doctor.email}</td>
-                        <td>{doctor.phone}</td>
+
+                        <td>{doctor.telephone}</td>
 
                         <td>
-                <span
-                    className={`status ${doctor.status
-                        .replace(/\s/g, "")
-                        .toLowerCase()}`}
-                >
-                  {doctor.status}
-                </span>
+
+                            <Link to={`/doctors/${doctor.id}`}>
+                                <button className="view">
+                                    View
+                                </button>
+                            </Link>
+
+                            <Link to={`/edit-doctor/${doctor.id}`}>
+                                <button className="edit">
+                                    Edit
+                                </button>
+                            </Link>
+
                         </td>
 
-                        <td>
-                            <button className="view">View</button>
-                            <button className="edit">Edit</button>
-                        </td>
                     </tr>
+
                 ))}
+
                 </tbody>
+
             </table>
+
         </div>
     );
 }

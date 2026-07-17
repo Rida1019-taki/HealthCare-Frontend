@@ -3,6 +3,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import StaffTable from "../../components/StaffTable/StaffTable";
 
 import "./Doctors.css";
+import {Link} from "react-router-dom";
 
 export default function Doctors() {
     return (
@@ -18,10 +19,11 @@ export default function Doctors() {
                             <h1>Doctors</h1>
                             <p>Manage doctors information and availability.</p>
                         </div>
-
+                        <Link to="/add-doctor">
                         <button className="add-btn">
                             Add Doctor
                         </button>
+                        </Link>
                     </div>
 
                     <StaffTable />

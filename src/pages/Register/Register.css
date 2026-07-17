@@ -217,3 +217,13 @@ small {
     }
 
 }
+
+.input-box select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+}

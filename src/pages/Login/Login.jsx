@@ -41,7 +41,7 @@ function Login() {
         try {
             console.log("Request:", data);
 
-            const response = await api.post("/login", {
+            const response = await api.post("/auth/login", {
                 email: data.email.trim(),
                 password: data.password,
             });
