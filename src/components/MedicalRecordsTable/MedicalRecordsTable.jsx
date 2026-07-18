@@ -20,6 +20,23 @@ export default function MedicalRecordsTable() {
         }
     };
 
+    const deleteRecord = async(id)=>{
+
+        if(!window.confirm("Delete this medical record ?"))
+            return;
+
+        try{
+
+            await api.delete(`/api/dossiers/${id}`);
+
+            loadRecords();
+
+        }catch(err){
+            console.log(err.response?.data || err);
+        }
+
+    }
+
     return (
         <div className="table-box">
 
@@ -66,6 +83,13 @@ export default function MedicalRecordsTable() {
                             >
                                 Edit
                             </Link>
+
+                            <button
+                                className="delete"
+                                onClick={() => deleteRecord(record.id)}
+                            >
+                                Delete
+                            </button>
 
                         </td>
 
