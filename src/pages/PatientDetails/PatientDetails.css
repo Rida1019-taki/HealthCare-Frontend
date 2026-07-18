@@ -1,0 +1,77 @@
+.patient-details {
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.patient-card {
+    width: 100%;
+    max-width: 700px;
+    background: #fff;
+    border-radius: 15px;
+    padding: 35px;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.patient-card h2 {
+    margin-bottom: 30px;
+    color: #1e3a8a;
+    text-align: center;
+}
+
+.patient-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.patient-info:last-child{
+    border-bottom: none;
+}
+
+.patient-info span:first-child{
+    font-weight: 600;
+    color: #555;
+}
+
+.patient-info span:last-child{
+    color: #222;
+}
+
+.actions{
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.actions button{
+    border: none;
+    padding: 12px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: .3s;
+}
+
+.edit-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.edit-btn:hover{
+    background:#1d4ed8;
+}
+
+.back-btn{
+    background:#e5e7eb;
+    color:#333;
+}
+
+.back-btn:hover{
+    background:#d1d5db;
+}

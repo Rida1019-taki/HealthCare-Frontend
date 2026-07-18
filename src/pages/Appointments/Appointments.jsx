@@ -13,14 +13,23 @@ export default function Appointments() {
                 <Sidebar />
 
                 <main className="appointments-content">
+
                     <div className="header">
                         <div>
                             <h1>Appointments</h1>
                             <p>Manage all appointments</p>
                         </div>
+
+                        <button
+                            className="primary"
+                            onClick={() => window.location.href = "/appointments/add"}
+                        >
+                            Add Appointment
+                        </button>
                     </div>
 
                     <AppointmentsTable />
+
                 </main>
             </div>
         </>

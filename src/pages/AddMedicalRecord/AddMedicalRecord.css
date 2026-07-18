@@ -1,0 +1,112 @@
+.record-page{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.record-card{
+    width:100%;
+    max-width:650px;
+    background:white;
+    border-radius:15px;
+    padding:35px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.logo{
+    width:75px;
+    height:75px;
+    margin:auto;
+    background:#2563eb;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+}
+
+.record-card h2{
+    text-align:center;
+    margin-top:20px;
+    color:#1e3a8a;
+}
+
+.subtitle{
+    text-align:center;
+    color:#777;
+    margin-bottom:30px;
+}
+
+.record-card label{
+    display:block;
+    margin:18px 0 8px;
+    font-weight:600;
+}
+
+.input-box{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    background:#fafafa;
+}
+
+.input-box svg{
+    color:#2563eb;
+    font-size:18px;
+}
+
+.input-box input,
+.input-box textarea{
+    width:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-size:15px;
+}
+
+.input-box textarea{
+    resize:none;
+    height:120px;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+    margin-top:30px;
+}
+
+.save-btn,
+.cancel-btn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn{
+    background:#2563eb;
+    color:white;
+}
+
+.save-btn:hover{
+    background:#1d4ed8;
+}
+
+.cancel-btn{
+    background:#e5e7eb;
+}
+
+.cancel-btn:hover{
+    background:#d1d5db;
+}

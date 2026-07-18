@@ -1,69 +1,71 @@
+import { useEffect, useState } from "react";
+import api from "../../services/api";
 import "./MedicalRecordsTable.css";
+import { Link } from "react-router-dom";
 
-const records = [
-    {
-        patient:"Elena Rodriguez",
-        diagnosis:"Type 2 Diabetes mellitus",
-        date:"2023-10-24"
-    },
-    {
-        patient:"Marcus Chen",
-        diagnosis:"Hypertensive heart disease",
-        date:"2023-11-02"
-    },
-    {
-        patient:"Sarah Jenkins",
-        diagnosis:"Acute viral pharyngitis",
-        date:"2023-11-15"
-    },
-    {
-        patient:"David Okafor",
-        diagnosis:"Anterior cruciate ligament tear",
-        date:"2023-11-18"
-    },
-    {
-        patient:"Linda Thompson",
-        diagnosis:"Stable angina pectoris",
-        date:"2023-11-20"
-    }
-];
+export default function MedicalRecordsTable() {
 
-export default function MedicalRecordsTable(){
+    const [records, setRecords] = useState([]);
 
-    return(
+    useEffect(() => {
+        loadRecords();
+    }, []);
 
+    const loadRecords = async () => {
+        try {
+            const res = await api.get("/api/dossiers");
+            setRecords(res.data.content);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    return (
         <div className="table-box">
 
             <table>
 
                 <thead>
-
                 <tr>
                     <th>Patient</th>
-                    <th>Diagnosis</th>
+                    <th>Diagnostic</th>
+                    <th>Observation</th>
                     <th>Date</th>
                     <th>Actions</th>
                 </tr>
-
                 </thead>
 
                 <tbody>
 
-                {records.map((record,index)=>(
+                {records.map(record => (
 
-                    <tr key={index}>
-
-                        <td>{record.patient}</td>
-
-                        <td>{record.diagnosis}</td>
-
-                        <td>{record.date}</td>
+                    <tr key={record.id}>
 
                         <td>
+                            {record.patientPrenom} {record.patientNom}
+                        </td>
 
-                            <button className="view">View</button>
+                        <td>{record.diagnostic}</td>
 
-                            <button className="edit">Edit</button>
+                        <td>{record.observation}</td>
+
+                        <td>{record.dateCreation}</td>
+
+                        <td className="actions">
+
+                            <Link
+                                to={`/medical-records/${record.id}`}
+                                className="view-btn"
+                            >
+                                View
+                            </Link>
+
+                            <Link
+                                to={`/medical-records/edit/${record.id}`}
+                                className="edit-btn"
+                            >
+                                Edit
+                            </Link>
 
                         </td>
 
@@ -76,23 +78,9 @@ export default function MedicalRecordsTable(){
             </table>
 
             <div className="footer">
-
-                <p>Showing 5 of 1,248 records</p>
-
-                <div className="pagination">
-
-                    <button>{"<"}</button>
-                    <button className="active">1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>{">"}</button>
-
-                </div>
-
+                <p>Showing {records.length} records</p>
             </div>
 
         </div>
-
     );
-
 }

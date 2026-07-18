@@ -1,6 +1,7 @@
 import "./PatientsTable.css";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
+import { Link } from "react-router-dom";
 
 export default function PatientsTable() {
 
@@ -14,7 +15,6 @@ export default function PatientsTable() {
         try {
             const response = await api.get("/api/patients");
 
-            // Spring Boot Page<ResponsePatientDTO>
             setPatients(response.data.content);
 
         } catch (error) {
@@ -54,13 +54,17 @@ export default function PatientsTable() {
                         <td>{patient.dateNaissance}</td>
 
                         <td>
-                            <button className="profile-btn">
-                                View Profile
-                            </button>
+                            <Link to={`/patients/${patient.id}`}>
+                                <button className="profile-btn">
+                                    View Profile
+                                </button>
+                            </Link>
 
-                            <button className="edit-btn">
-                                Edit
-                            </button>
+                            <Link to={`/patients/edit/${patient.id}`}>
+                                <button className="edit-btn">
+                                    Edit
+                                </button>
+                            </Link>
                         </td>
 
                     </tr>

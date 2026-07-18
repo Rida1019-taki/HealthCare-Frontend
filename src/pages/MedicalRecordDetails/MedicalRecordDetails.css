@@ -1,0 +1,133 @@
+.record-details-page,
+.edit-record-page{
+    min-height:100vh;
+    background:#f5f7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.record-details-card,
+.edit-record-card{
+    width:100%;
+    max-width:650px;
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.record-details-card h2,
+.edit-record-card h2{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:30px;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.info:last-child{
+    border-bottom:none;
+}
+
+.info span:first-child{
+    font-weight:600;
+    color:#444;
+}
+
+.info span:last-child{
+    color:#666;
+}
+
+label{
+    display:block;
+    margin:18px 0 8px;
+    font-weight:600;
+    color:#444;
+}
+
+.input-box{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px 15px;
+    background:#fafafa;
+}
+
+.input-box svg{
+    color:#2563eb;
+    font-size:18px;
+}
+
+.input-box input,
+.input-box textarea{
+    flex:1;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-size:15px;
+}
+
+.input-box textarea{
+    resize:none;
+    min-height:120px;
+}
+
+.actions{
+    display:flex;
+    gap:15px;
+    margin-top:30px;
+}
+
+.save-btn,
+.cancel-btn,
+.back-btn{
+    flex:1;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.save-btn{
+    background:#2563eb;
+    color:#fff;
+}
+
+.save-btn:hover{
+    background:#1d4ed8;
+}
+
+.back-btn{
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.back-btn:hover{
+    background:#1d4ed8;
+}
+
+.cancel-btn{
+    background:#e5e7eb;
+    color:#333;
+}
+
+.cancel-btn:hover{
+    background:#d1d5db;
+}

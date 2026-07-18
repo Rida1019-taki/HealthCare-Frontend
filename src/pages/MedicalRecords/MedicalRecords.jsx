@@ -1,10 +1,12 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import MedicalRecordsTable from "../../components/MedicalRecordsTable/MedicalRecordsTable";
+import {useNavigate} from "react-router-dom";
 
 import "./MedicalRecords.css";
 
 export default function MedicalRecords() {
+    const navigate = useNavigate();
     return (
         <>
             <Navbar />
@@ -26,7 +28,10 @@ export default function MedicalRecords() {
                         </div>
 
                         <div className="buttons">
-                            <button className="primary">
+                            <button
+                                className="primary"
+                                onClick={() => navigate("/medical-records/add")}
+                            >
                                 Add New Record
                             </button>
 
