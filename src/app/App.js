@@ -17,6 +17,8 @@ import MedicalRecordDetails from "../pages/MedicalRecordDetails/MedicalRecordDet
 import EditMedicalRecord from "../pages/EditMedicalRecord/EditMedicalRecord";
 import AddMedicalRecord from "../pages/AddMedicalRecord/AddMedicalRecord";
 import AddAppointment from "../pages/AddAppointment/AddAppointment";
+import ViewDoctor from "../pages/ViewDoctor/ViewDoctor";
+import EditDoctor from "../pages/EditDoctor/EditDoctor";
 
 function App() {
   return (
@@ -58,6 +60,9 @@ function App() {
               path="/appointments/add"
               element={<AddAppointment />}
           />
+
+          <Route path="/doctors/:id" element={<ViewDoctor />} />
+          <Route path="/doctors/edit/:id" element={<EditDoctor />} />
       </Routes>
   );
 }

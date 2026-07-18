@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import StaffTable from "../../components/StaffTable/StaffTable";
+import StaffTable from "../../components/DoctorsTable/DoctorsTable";
 
 import "./Doctors.css";
 import {Link} from "react-router-dom";

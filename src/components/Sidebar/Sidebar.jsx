@@ -18,7 +18,7 @@ export default function Sidebar(){
 
                 <Link to="/doctors">
 
-                <li>Staff Directory</li>
+                <li>Doctors</li>
                 </Link>
 
                 <Link to="/settings">

@@ -20,22 +20,20 @@ export default function MedicalRecordsTable() {
         }
     };
 
-    const deleteRecord = async(id)=>{
+    const deleteRecord = async (id) => {
 
-        if(!window.confirm("Delete this medical record ?"))
-            return;
+        if (!window.confirm("Delete this medical record ?")) return;
 
-        try{
+        try {
 
             await api.delete(`/api/dossiers/${id}`);
 
-            loadRecords();
+            setRecords(prev => prev.filter(record => record.id !== id));
 
-        }catch(err){
+        } catch (err) {
             console.log(err.response?.data || err);
         }
-
-    }
+    };
 
     return (
         <div className="table-box">

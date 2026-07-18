@@ -1,4 +1,4 @@
-import "./StaffTable.css";
+import "./DoctorsTable.css";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
@@ -21,6 +21,23 @@ export default function StaffTable() {
 
         } catch (error) {
             console.error(error);
+        }
+    };
+
+    const deleteDoctor = async (id) => {
+
+        if (!window.confirm("Delete this doctor ?")) return;
+
+        try {
+
+            await api.delete(`/api/medecins/${id}`);
+
+            setDoctors(prev =>
+                prev.filter(doctor => doctor.id !== id)
+            );
+
+        } catch (err) {
+            console.log(err.response?.data || err);
         }
     };
 
@@ -53,19 +70,28 @@ export default function StaffTable() {
 
                         <td>{doctor.telephone}</td>
 
-                        <td>
+                        <td className="actions">
 
-                            <Link to={`/doctors/${doctor.id}`}>
-                                <button className="view">
-                                    View
-                                </button>
+                            <Link
+                                to={`/doctors/${doctor.id}`}
+                                className="view-btn"
+                            >
+                                View
                             </Link>
 
-                            <Link to={`/edit-doctor/${doctor.id}`}>
-                                <button className="edit">
-                                    Edit
-                                </button>
+                            <Link
+                                to={`/doctors/edit/${doctor.id}`}
+                                className="edit-btn"
+                            >
+                                Edit
                             </Link>
+
+                            <button
+                                className="delete-btn"
+                                onClick={() => deleteDoctor(doctor.id)}
+                            >
+                                Delete
+                            </button>
 
                         </td>
 

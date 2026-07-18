@@ -1,0 +1,62 @@
+.view-doctor-page{
+    min-height:100vh;
+    background:#f4f7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.view-doctor-card{
+    width:100%;
+    max-width:650px;
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+.view-doctor-card h2{
+    text-align:center;
+    color:#2563eb;
+    margin-bottom:30px;
+}
+
+.info{
+    display:flex;
+    justify-content:space-between;
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.info:last-child{
+    border-bottom:none;
+}
+
+.info span:first-child{
+    font-weight:600;
+    color:#333;
+}
+
+.info span:last-child{
+    color:#666;
+}
+
+.back-btn{
+    margin-top:30px;
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:#2563eb;
+    color:#fff;
+    cursor:pointer;
+    text-decoration:none;
+    display:flex;
+    justify-content:center;
+    transition:.3s;
+}
+
+.back-btn:hover{
+    background:#1d4ed8;
+}

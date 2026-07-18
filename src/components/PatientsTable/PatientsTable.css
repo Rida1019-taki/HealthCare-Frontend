@@ -53,3 +53,48 @@ tr:hover{
     cursor:pointer;
     margin-left:8px;
 }
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.view-btn,
+.edit-btn,
+.delete-btn{
+    border:none;
+    padding:7px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.view-btn{
+    background:#2563eb;
+    color:#fff;
+}
+
+.view-btn:hover{
+    background:#1d4ed8;
+}
+
+.edit-btn{
+    background:#f59e0b;
+    color:#fff;
+}
+
+.edit-btn:hover{
+    background:#d97706;
+}
+
+.delete-btn{
+    background:#ef4444;
+    color:#fff;
+}
+
+.delete-btn:hover{
+    background:#dc2626;
+}
