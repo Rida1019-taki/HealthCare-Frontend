@@ -51,7 +51,7 @@ function PatientDetails() {
                     <span>{patient.dateNaissance}</span>
                 </div>
 
-                <div className="actions">
+                <div className="patient-actions">
 
                     <Link to={`/patients/edit/${patient.id}`}>
                         <button className="edit-btn">
