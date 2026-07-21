@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../../services/api";
+import api from "../../../services/api";
 import "./EditMedicalRecord.css";
 
 export default function EditMedicalRecord(){

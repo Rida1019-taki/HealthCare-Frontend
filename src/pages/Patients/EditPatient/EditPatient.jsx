@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaCalendarAlt } from "react-icons/fa";
-import api from "../../services/api";
+import api from "../../../services/api";
 import "./EditPatient.css";
 
 function EditPatient() {

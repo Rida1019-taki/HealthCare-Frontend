@@ -9,16 +9,16 @@ import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import About from "../pages/About/About";
 import Appointments from "../pages/Appointments/Appointments";
-import AddPatient from "../pages/AddPatient/AddPatient";
-import AddDoctor from "../pages/AddDoctor/AddDoctor";
-import PatientDetails from "../pages/PatientDetails/PatientDetails";
-import EditPatient from "../pages/EditPatient/EditPatient";
-import MedicalRecordDetails from "../pages/MedicalRecordDetails/MedicalRecordDetails";
-import EditMedicalRecord from "../pages/EditMedicalRecord/EditMedicalRecord";
-import AddMedicalRecord from "../pages/AddMedicalRecord/AddMedicalRecord";
-import AddAppointment from "../pages/AddAppointment/AddAppointment";
-import ViewDoctor from "../pages/ViewDoctor/ViewDoctor";
-import EditDoctor from "../pages/EditDoctor/EditDoctor";
+import AddPatient from "../pages/Patients/AddPatient/AddPatient";
+import AddDoctor from "../pages/Doctors/AddDoctor/AddDoctor";
+import PatientDetails from "../pages/Patients/PatientDetails/PatientDetails";
+import EditPatient from "../pages/Patients/EditPatient/EditPatient";
+import MedicalRecordDetails from "../pages/MedicalRecords/MedicalRecordDetails/MedicalRecordDetails";
+import EditMedicalRecord from "../pages/MedicalRecords/EditMedicalRecord/EditMedicalRecord";
+import AddMedicalRecord from "../pages/Appointments/AddMedicalRecord/AddMedicalRecord";
+import AddAppointment from "../pages/Appointments/AddAppointment/AddAppointment";
+import ViewDoctor from "../pages/Doctors/ViewDoctor/ViewDoctor";
+import EditDoctor from "../pages/Doctors/EditDoctor/EditDoctor";
 
 function App() {
   return (

@@ -46,7 +46,7 @@ function Navbar() {
 
             <div className="navbar-profile">
                 <img
-                    src="https://i.pravatar.cc/40"
+                    src="https://i.pravatar"
                     alt="Profile"
                 />
             </div>

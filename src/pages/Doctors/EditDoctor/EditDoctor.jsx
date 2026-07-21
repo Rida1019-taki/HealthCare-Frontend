@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "../../services/api";
+import api from "../../../services/api";
 import "./EditDoctor.css";
 
 export default function EditDoctor() {
