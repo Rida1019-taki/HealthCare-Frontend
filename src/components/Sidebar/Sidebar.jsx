@@ -8,22 +8,22 @@ export default function Sidebar(){
             <ul>
                 <Link to="/appointments">
 
-                <li>Appointments</li>
+                    <li>Appointments</li>
                 </Link>
 
                 <Link to="/medical-records">
 
-                <li>Medical Records</li>
+                    <li>Medical Records</li>
                 </Link>
 
                 <Link to="/doctors">
 
-                <li>Doctors</li>
+                    <li>Doctors</li>
                 </Link>
 
                 <Link to="/settings">
 
-                <li>Settings</li>
+                    <li>Settings</li>
                 </Link>
 
             </ul>

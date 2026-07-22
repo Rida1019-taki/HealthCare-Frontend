@@ -1,4 +1,5 @@
 import './Hero.css';
+import {Link} from "react-router-dom";
 
 function Hero(){
     return(
@@ -9,7 +10,9 @@ function Hero(){
                 efficiency. Manage patient records, schedule appointments,
                 and track health outcomes with surgical precision.
             </p>
+            <Link to="/dashboard">
             <button>Go To Dashborad</button>
+            </Link>
         </section>
     );
 }

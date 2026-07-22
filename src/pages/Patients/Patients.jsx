@@ -1,6 +1,5 @@
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import SearchBar from "../../components/SearchBar/SearchBar";
 import PatientsTable from "../../components/PatientsTable/PatientsTable";
 import "./Patients.css";
 import {Link} from "react-router-dom";
@@ -30,7 +29,6 @@ export default function Patients() {
 
                     </div>
 
-                    <SearchBar />
 
                     <PatientsTable />
 
