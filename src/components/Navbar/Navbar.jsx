@@ -9,7 +9,7 @@ function Navbar() {
             <ul className="navbar-links">
                 <li>
                     <NavLink
-                        to="/"
+                        to="/home"
                         className={({ isActive }) => (isActive ? "active" : "")}
                     >
                         Home
@@ -46,7 +46,7 @@ function Navbar() {
 
             <div className="navbar-profile">
                 <img
-                    src="https://i.pravatar"
+                    src="https://i.pravatar "
                     alt="Profile"
                 />
             </div>

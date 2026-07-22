@@ -1,6 +1,6 @@
 import Home from '../pages/Home/Home';
 import Dashboard from '../pages/Dashboard/Dashboard';
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import Patients from "../pages/Patients/Patients";
 import MedicalRecords from "../pages/MedicalRecords/MedicalRecords";
 import Doctors from "../pages/Doctors/Doctors";
@@ -23,10 +23,11 @@ import EditDoctor from "../pages/Doctors/EditDoctor/EditDoctor";
 function App() {
   return (
       <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
 
           <Route path="/dashboard" element={<Dashboard />} />
 
