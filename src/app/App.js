@@ -15,7 +15,7 @@ import PatientDetails from "../pages/Patients/PatientDetails/PatientDetails";
 import EditPatient from "../pages/Patients/EditPatient/EditPatient";
 import MedicalRecordDetails from "../pages/MedicalRecords/MedicalRecordDetails/MedicalRecordDetails";
 import EditMedicalRecord from "../pages/MedicalRecords/EditMedicalRecord/EditMedicalRecord";
-import AddMedicalRecord from "../pages/Appointments/AddMedicalRecord/AddMedicalRecord";
+import AddMedicalRecord from "../pages/MedicalRecords/AddMedicalRecord/AddMedicalRecord";
 import AddAppointment from "../pages/Appointments/AddAppointment/AddAppointment";
 import ViewDoctor from "../pages/Doctors/ViewDoctor/ViewDoctor";
 import EditDoctor from "../pages/Doctors/EditDoctor/EditDoctor";
