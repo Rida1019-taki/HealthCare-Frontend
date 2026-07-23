@@ -46,18 +46,19 @@ function Login() {
                 password: data.password,
             });
 
-            console.log("Response:", response.data);
+            console.log("STATUS =", response.status);
+            console.log("DATA =", response.data);
 
             localStorage.setItem("token", response.data.token);
-            localStorage.setItem("userId", response.data.userId);
-            localStorage.setItem("role", response.data.role);
-            localStorage.setItem("profileId", response.data.profileId);
+
+            console.log("TOKEN SAVED =", localStorage.getItem("token"));
 
             navigate("/dashboard");
 
         } catch (error) {
-            console.error("Status:", error.response?.status);
-            console.error("Data:", error.response?.data);
+            console.log("STATUS =", error.response?.status);
+            console.log("DATA =", error.response?.data);
+            console.log(error);
         }
     };
 
