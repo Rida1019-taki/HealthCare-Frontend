@@ -36,6 +36,7 @@ export default function Dashboard() {
             console.log(err);
         }
     };
+
     return(
         <>
             <Navbar/>
