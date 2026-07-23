@@ -50,10 +50,21 @@ function Login() {
             console.log("DATA =", response.data);
 
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userId", response.data.userId);
+            localStorage.setItem("role", response.data.role);
+            localStorage.setItem("profileId", response.data.profileId);
 
             console.log("TOKEN SAVED =", localStorage.getItem("token"));
 
-            navigate("/dashboard");
+            const role = response.data.role;
+
+            if (role === "ADMIN") {
+                navigate("/dashboard");
+            } else if (role === "MEDECIN") {
+                navigate("/appointments");
+            } else {
+                navigate("/home");
+            }
 
         } catch (error) {
             console.log("STATUS =", error.response?.status);

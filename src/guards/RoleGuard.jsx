@@ -5,7 +5,7 @@ export default function RoleGuard({ children, roles }) {
     const role = localStorage.getItem("role");
 
     if (!roles.includes(role)) {
-        return <Navigate to="/dashboard" replace />;
+        return <Navigate to="/403" replace />;
     }
 
     return children;
