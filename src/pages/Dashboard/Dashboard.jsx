@@ -15,7 +15,7 @@ export default function Dashboard() {
     const [doctors, setDoctors] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [records, setRecords] = useState([]);
-
+    const role = localStorage.getItem("role");
     useEffect(() => {
         loadData();
     }, []);
@@ -49,6 +49,10 @@ export default function Dashboard() {
                     <p className="status">
                         System Status: Operational • Last Updated: 09:42 AM
                     </p>
+                    {
+                        role!=="ADMIN" ? (<h2> only admin can see</h2>) :
+
+
                     <div className="stats">
                         <StatsCard title="TOTAL PATIENTS" value={patients.length} />
 
@@ -59,6 +63,7 @@ export default function Dashboard() {
                         <StatsCard title="MEDICAL RECORDS" value={records.length} />
 
                     </div>
+                    }
 
                     <div className="bottom">
                         <ActivityTable/>

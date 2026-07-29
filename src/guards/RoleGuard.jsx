@@ -1,12 +1,12 @@
-import { Navigate } from "react-router-dom";
+    import { Navigate } from "react-router-dom";
 
-export default function RoleGuard({ children, roles }) {
+    export default function RoleGuard({ children, roles }) {
 
-    const role = localStorage.getItem("role");
+        const role = localStorage.getItem("role");
 
-    if (!roles.includes(role)) {
-        return <Navigate to="/403" replace />;
+        if (!roles.includes(role)) {
+            return <Navigate to="/403" replace />;
+        }
+
+        return children;
     }
-
-    return children;
-}
