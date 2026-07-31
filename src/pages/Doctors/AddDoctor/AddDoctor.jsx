@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 
 import "./AddDoctor.css";
+import {handleApiError} from "../../../utils/errorHandler";
 
 const schema = yup.object({
     nom: yup.string().required("Le nom est obligatoire"),
@@ -56,7 +57,7 @@ export default function AddDoctor() {
 
             navigate("/doctors");
         } catch (error) {
-            console.log(error.response?.data);
+            handleApiError(error);
         }
     };
 

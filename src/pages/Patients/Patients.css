@@ -37,3 +37,30 @@
 .add-btn:hover{
     background:#1d4ed8;
 }
+
+
+.search-input {
+    width: 320px;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #2563eb;
+}
+
+.patients-actions{
+    display:flex;
+    gap:15px;
+    align-items:center;
+    margin:20px 0;
+}
+
+.sort-select{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ccc;
+}

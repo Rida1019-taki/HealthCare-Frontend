@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 
 import "./AddPatient.css";
+import {toast} from "react-toastify";
 
 const schema = yup.object({
     nom: yup
@@ -54,7 +55,7 @@ function AddPatient() {
                 telephone: Number(data.telephone),
                 dateNaissance: data.dateNaissance,
             });
-
+            toast.success("Patient added successfully");
             console.log(response.data);
 
             reset();

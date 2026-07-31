@@ -1,100 +1,34 @@
-.table-container{
-    background:white;
-    border:1px solid #ddd;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-th{
-    background:#f2f3f5;
-    text-align:left;
-    padding:14px;
-    border-bottom:1px solid #ddd;
-}
-
-td{
-    padding:16px 14px;
-    border-bottom:1px solid #eee;
-}
-
-tr:hover{
-    background:#fafafa;
-}
-
-.profile-btn{
-    background:none;
-    border:none;
-    color:#2563eb;
-    cursor:pointer;
-    margin-right:10px;
-}
-
-.edit-btn{
-    background:none;
-    border:none;
-    color:#555;
-    cursor:pointer;
-}
-
-.footer{
+.pagination{
     display:flex;
-    justify-content:space-between;
+    justify-content:center;
     align-items:center;
-    padding:18px;
-}
-
-.footer button{
-    padding:8px 14px;
-    border:1px solid #ccc;
-    background:white;
-    cursor:pointer;
-    margin-left:8px;
-}
-
-.actions{
-    display:flex;
     gap:8px;
+    margin:20px 0;
+    flex-wrap:wrap;
 }
 
-.view-btn,
-.edit-btn,
-.delete-btn{
-    border:none;
-    padding:7px 14px;
-    border-radius:8px;
+.pagination button{
+    min-width:40px;
+    height:40px;
+    border:1px solid #d1d5db;
+    background:#fff;
+    border-radius:6px;
     cursor:pointer;
-    font-size:14px;
-    font-weight:600;
-    text-decoration:none;
     transition:.3s;
 }
 
-.view-btn{
+.pagination button:hover:not(:disabled){
     background:#2563eb;
     color:#fff;
 }
 
-.view-btn:hover{
-    background:#1d4ed8;
+.pagination button:disabled{
+    opacity:.5;
+    cursor:not-allowed;
 }
 
-.edit-btn{
-    background:#f59e0b;
+.active-page{
+    background:#2563eb !important;
     color:#fff;
-}
-
-.edit-btn:hover{
-    background:#d97706;
-}
-
-.delete-btn{
-    background:#ef4444;
-    color:#fff;
-}
-
-.delete-btn:hover{
-    background:#dc2626;
+    border-color:#2563eb !important;
 }

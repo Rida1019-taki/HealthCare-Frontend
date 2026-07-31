@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../services/api";
 import "./EditDoctor.css";
+import {handleApiError} from "../../../utils/errorHandler";
 
 export default function EditDoctor() {
 
@@ -16,10 +17,19 @@ export default function EditDoctor() {
     }, []);
 
     const loadDoctor = async () => {
-        const res = await api.get(`/api/medecins/${id}`);
-        reset(res.data);
-    };
 
+        try {
+
+            const res = await api.get(`/api/medecins/${id}`);
+            reset(res.data);
+
+        } catch (error) {
+
+            handleApiError(error);
+
+        }
+
+    };
     const onSubmit = async (data) => {
 
         await api.put(`/api/medecins/${id}`, data);

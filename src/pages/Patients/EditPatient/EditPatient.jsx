@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import api from "../../../services/api";
 import "./EditPatient.css";
+import {toast} from "react-toastify";
 
 function EditPatient() {
     const { id } = useParams();
@@ -27,6 +28,7 @@ function EditPatient() {
     const onSubmit = async (data) => {
         try {
             await api.put(`/api/patients/${id}`, data);
+            toast.success("Patient updated successfully");
             navigate("/patients");
         } catch (err) {
             console.log(err);
