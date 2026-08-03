@@ -17,7 +17,7 @@ export default function PatientsTable({ search, sortOrder }) {
 
     useEffect(() => {
         getPatients();
-    }, [page, search]);
+    }, [page, search, sortOrder]);
 
     const getPatients = async () => {
         try {
