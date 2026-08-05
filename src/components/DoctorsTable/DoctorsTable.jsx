@@ -12,13 +12,21 @@ export default function StaffTable({ speciality }) {
 
     useEffect(() => {
         getDoctors();
-    }, []);
+    }, [speciality]);
 
     const getDoctors = async () => {
 
         try {
 
-            const response = await api.get("/api/medecins");
+            let response;
+
+            if (speciality.trim()!== ""){
+                response = await api.get(`/api/medecins/search?specialite=${speciality}`);
+            }else {
+             response = await api.get("/api/medecins");
+
+            }
+
             console.log(response.data.content);
             setDoctors(response.data.content || []);
 
@@ -57,16 +65,7 @@ export default function StaffTable({ speciality }) {
 
     };
 
-    const filteredDoctors =
-        speciality === ""
-            ? doctors
-            : doctors.filter(
-                (doctor) =>
-                    doctor.specialite &&
-                    doctor.specialite
-                        .toLowerCase()
-                        .includes(speciality.toLowerCase())
-            );
+
 
     if (loading) {
         return (
@@ -93,7 +92,7 @@ export default function StaffTable({ speciality }) {
 
                 <tbody>
 
-                {filteredDoctors.length === 0 ? (
+                {doctors.length === 0 ? (
 
                     <tr>
                         <td colSpan="5" className="empty-message">
@@ -103,7 +102,7 @@ export default function StaffTable({ speciality }) {
 
                 ) : (
 
-                    filteredDoctors.map((doctor) => (
+                    doctors.map((doctor) => (
 
                         <tr key={doctor.id}>
 
