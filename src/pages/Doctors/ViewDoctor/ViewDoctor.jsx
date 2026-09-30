@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import api from "../../../services/api";
-import "./ViewDoctor.css";
 
 export default function ViewDoctor() {
 
@@ -9,13 +8,13 @@ export default function ViewDoctor() {
     const [doctor, setDoctor] = useState({});
 
     useEffect(() => {
-        loadDoctor();
-    }, []);
+        const loadDoctor = async () => {
+            const res = await api.get(`/api/medecins/${id}`);
+            setDoctor(res.data);
+        };
 
-    const loadDoctor = async () => {
-        const res = await api.get(`/api/medecins/${id}`);
-        setDoctor(res.data);
-    };
+        loadDoctor();
+    }, [id]);
 
     return (
         <div className="record-details-page">

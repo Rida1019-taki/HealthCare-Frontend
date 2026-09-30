@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "./Forbidden.css";
 
 export default function Forbidden() {
     return (

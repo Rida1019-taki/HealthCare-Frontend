@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {Link, useParams} from "react-router-dom";
 import api from "../../../services/api";
-import "./MedicalRecordDetails.css";
 
 export default function MedicalRecordDetails() {
 
@@ -9,13 +8,13 @@ export default function MedicalRecordDetails() {
     const [record, setRecord] = useState(null);
 
     useEffect(() => {
-        loadRecord();
-    }, []);
+        const loadRecord = async () => {
+            const res = await api.get(`/api/dossiers/${id}`);
+            setRecord(res.data);
+        };
 
-    const loadRecord = async () => {
-        const res = await api.get(`/api/dossiers/${id}`);
-        setRecord(res.data);
-    };
+        loadRecord();
+    }, [id]);
 
     if (!record) return <h2>Loading...</h2>;
 

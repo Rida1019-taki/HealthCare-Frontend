@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaFileMedical, FaUser, FaNotesMedical, FaClipboard } from "react-icons/fa";
 import api from "../../../services/api";
-import "./AddMedicalRecord.css";
 
 export default function AddMedicalRecord() {
 

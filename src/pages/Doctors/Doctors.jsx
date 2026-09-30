@@ -1,57 +1,50 @@
 import { useState } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import StaffTable from "../../components/DoctorsTable/DoctorsTable";
-import "./Doctors.css";
 import { Link } from "react-router-dom";
+import { FaPlus, FaSearch } from "react-icons/fa";
 
 export default function Doctors() {
+  const [speciality, setSpeciality] = useState("");
 
-    const [speciality, setSpeciality] = useState("");
+  return (
+    <div className="page-stack">
+      <section className="page-hero page-hero--compact">
+        <div>
+          <span className="section__eyebrow">Doctors</span>
+          <h1>Doctor directory</h1>
+          <p>Manage doctors, specialties and availability from a clean workspace.</p>
+        </div>
 
-    return (
-        <>
-            <Navbar />
+        <Link to="/add-doctor" className="button button--primary">
+          <FaPlus />
+          Add doctor
+        </Link>
+      </section>
 
-            <div className="staff-page">
-                <Sidebar />
+      <section className="surface-card">
+        <div className="toolbar">
+          <div className="input-shell input-shell--toolbar">
+            <FaSearch />
+            <input
+              type="text"
+              placeholder="Filter by speciality..."
+              value={speciality}
+              onChange={(e) => setSpeciality(e.target.value)}
+            />
+          </div>
 
-                <main className="staff-content">
+          <select className="toolbar-select" value={speciality} onChange={(e) => setSpeciality(e.target.value)}>
+            <option value="">All specialities</option>
+            <option value="Cardiologie">Cardiologie</option>
+            <option value="Dermatologie">Dermatologie</option>
+            <option value="Pediatrie">Pediatrie</option>
+            <option value="Gynecologie">Gynecologie</option>
+            <option value="Ophtalmologie">Ophtalmologie</option>
+          </select>
+        </div>
 
-                    <div className="header">
-
-                        <div>
-                            <h1>Doctors</h1>
-                            <p>Manage doctors information and availability.</p>
-                        </div>
-
-                        <Link to="/add-doctor">
-                            <button className="add-btn">
-                                Add Doctor
-                            </button>
-                        </Link>
-
-                    </div>
-
-                    <select
-                        className="speciality-select"
-                        value={speciality}
-                        onChange={(e) => setSpeciality(e.target.value)}
-                    >
-                        <option value="">Toutes les spécialités</option>
-                        <option value="Cardiologie">Cardiologie</option>
-                        <option value="Dermatologie">Dermatologie</option>
-                        <option value="Pediatrie">Pediatrie</option>
-                        <option value="Gynecologie">Gynecologie</option>
-                        <option value="Ophtalmologie">Ophtalmologie</option>
-                        <option value="test">test</option>
-                    </select>
-
-                    <StaffTable speciality={speciality} />
-
-                </main>
-
-            </div>
-        </>
-    );
+        <StaffTable speciality={speciality} />
+      </section>
+    </div>
+  );
 }

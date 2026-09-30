@@ -1,4 +1,3 @@
-import './Features.css';
 
 const data = [
     {

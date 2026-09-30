@@ -10,7 +10,6 @@ import {
     FaCalendarAlt,
 } from "react-icons/fa";
 
-import "./AddPatient.css";
 import {toast} from "react-toastify";
 
 const schema = yup.object({

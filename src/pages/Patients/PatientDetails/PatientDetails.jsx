@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import api from "../../../services/api";
-import "./PatientDetails.css";
 
 function PatientDetails() {
     const { id } = useParams();
@@ -11,20 +10,20 @@ function PatientDetails() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getPatient();
-    }, []);
+        const getPatient = async () => {
+            try {
+                const res = await api.get(`/api/patients/${id}`);
+                setPatient(res.data);
+            } catch (err) {
+                console.error(err);
+                toast.error("Impossible de charger les informations du patient.");
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const getPatient = async () => {
-        try {
-            const res = await api.get(`/api/patients/${id}`);
-            setPatient(res.data);
-        } catch (err) {
-            console.error(err);
-            toast.error("Impossible de charger les informations du patient.");
-        } finally {
-            setLoading(false);
-        }
-    };
+        getPatient();
+    }, [id]);
 
     if (loading) {
         return (

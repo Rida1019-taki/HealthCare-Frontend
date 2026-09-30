@@ -1,42 +1,42 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial;
+/* Dashboard Page Styles */
+
+.content h1 {
+    @apply text-3xl font-black text-gray-900 mb-2;
 }
 
-.dashboard{
-    display:flex;
+.content .status {
+    @apply text-sm text-gray-500 font-medium mb-8 flex items-center gap-2;
 }
 
-.content{
-    flex:1;
-    padding:25px;
-    background:#f5f7fa;
-    min-height:100vh;
+.content .status::before {
+    @apply inline-block w-2 h-2 rounded-full bg-green-500;
+    content: '';
 }
 
-.status{
-    margin:8px 0 25px;
-    color:gray;
-    font-size:14px;
+.stats {
+    @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10;
+    animation: slideInUp 0.5s ease-out;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    margin-bottom:25px;
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.bottom{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
+.bottom {
+    @apply grid grid-cols-1 xl:grid-cols-3 gap-6;
 }
 
-.right{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+.bottom > :first-child {
+    @apply xl:col-span-2;
+}
+
+.dashboard h2 {
+    @apply text-xl font-bold text-gray-900 mb-6 flex items-center gap-2;
 }

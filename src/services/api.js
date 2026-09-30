@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://healthcare-syst-me-de-gestion-m-dicale-9b6h.onrender.com",
+  baseURL: "http://localhost:8080/",
 });
 
 api.interceptors.request.use((config) => {
@@ -22,6 +22,7 @@ api.interceptors.response.use(
     (error) => {
 
       const status = error.response?.status;
+      const isLoginRequest = error.config?.url?.includes("/auth/login");
 
       switch (status) {
 
@@ -32,9 +33,10 @@ api.interceptors.response.use(
         case 401:
           console.log("401 - Unauthorized");
 
-          localStorage.clear();
-
-          window.location.href = "/login";
+          if (!isLoginRequest) {
+            localStorage.clear();
+            window.location.href = "/login";
+          }
           break;
 
         case 403:

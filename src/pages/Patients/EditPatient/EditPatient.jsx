@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import { FaUser, FaPhone, FaCalendarAlt } from "react-icons/fa";
 import api from "../../../services/api";
-import "./EditPatient.css";
 import {toast} from "react-toastify";
 
 function EditPatient() {
@@ -13,17 +12,17 @@ function EditPatient() {
     const { register, handleSubmit, reset } = useForm();
 
     useEffect(() => {
-        loadPatient();
-    }, []);
+        const loadPatient = async () => {
+            try {
+                const res = await api.get(`/api/patients/${id}`);
+                reset(res.data);
+            } catch (err) {
+                console.log(err);
+            }
+        };
 
-    const loadPatient = async () => {
-        try {
-            const res = await api.get(`/api/patients/${id}`);
-            reset(res.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+        loadPatient();
+    }, [id, reset]);
 
     const onSubmit = async (data) => {
         try {

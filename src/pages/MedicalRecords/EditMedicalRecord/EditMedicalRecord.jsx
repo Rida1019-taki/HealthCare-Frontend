@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../../../services/api";
-import "./EditMedicalRecord.css";
 
 export default function EditMedicalRecord(){
 
@@ -12,13 +11,13 @@ export default function EditMedicalRecord(){
     const { register, handleSubmit, reset } = useForm();
 
     useEffect(() => {
-        loadRecord();
-    }, []);
+        const loadRecord = async () => {
+            const res = await api.get(`/api/dossiers/${id}`);
+            reset(res.data);
+        };
 
-    const loadRecord = async () => {
-        const res = await api.get(`/api/dossiers/${id}`);
-        reset(res.data);
-    };
+        loadRecord();
+    }, [id, reset]);
 
     const onSubmit = async(data) => {
 

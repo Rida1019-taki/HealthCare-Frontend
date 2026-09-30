@@ -1,37 +1,26 @@
-import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import { Link } from "react-router-dom";
 import AppointmentsTable from "../../components/AppointmentsTable/AppointmentsTable";
-
-import "./Appointments.css";
+import { FaPlus } from "react-icons/fa";
 
 export default function Appointments() {
-    return (
-        <>
-            <Navbar />
+  return (
+    <div className="page-stack">
+      <section className="page-hero page-hero--compact">
+        <div>
+          <span className="section__eyebrow">Appointments</span>
+          <h1>Appointment management</h1>
+          <p>Review, confirm and manage the current schedule with a clear clinical overview.</p>
+        </div>
 
-            <div className="appointments-page">
-                <Sidebar />
+        <Link to="/appointments/add" className="button button--primary">
+          <FaPlus />
+          Add appointment
+        </Link>
+      </section>
 
-                <main className="appointments-content">
-
-                    <div className="header">
-                        <div>
-                            <h1>Appointments</h1>
-                            <p>Manage all appointments</p>
-                        </div>
-
-                        <button
-                            className="primary"
-                            onClick={() => window.location.href = "/appointments/add"}
-                        >
-                            Add Appointment
-                        </button>
-                    </div>
-
-                    <AppointmentsTable />
-
-                </main>
-            </div>
-        </>
-    );
+      <section className="surface-card">
+        <AppointmentsTable />
+      </section>
+    </div>
+  );
 }

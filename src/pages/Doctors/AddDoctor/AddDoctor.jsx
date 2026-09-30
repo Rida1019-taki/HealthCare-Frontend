@@ -11,7 +11,6 @@ import {
     FaStethoscope,
 } from "react-icons/fa";
 
-import "./AddDoctor.css";
 import {handleApiError} from "../../../utils/errorHandler";
 
 const schema = yup.object({
