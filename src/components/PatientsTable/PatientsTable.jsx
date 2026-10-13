@@ -10,6 +10,8 @@ export default function PatientsTable({ search, sortOrder }) {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
+  const rawRole = localStorage.getItem("role") || "";
+  const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
 
   const getPatients = useCallback(async () => {
     setLoading(true);
@@ -115,10 +117,12 @@ export default function PatientsTable({ search, sortOrder }) {
                         <FaEdit />
                         Edit
                       </Link>
-                      <button className="action-link action-link--danger" onClick={() => deletePatient(patient.id)}>
-                        <FaTrash />
-                        Delete
-                      </button>
+                      {role === "ADMIN" && (
+                        <button className="action-link action-link--danger" onClick={() => deletePatient(patient.id)}>
+                          <FaTrash />
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

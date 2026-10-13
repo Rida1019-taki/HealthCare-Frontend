@@ -54,7 +54,7 @@ export default function AppRoutes() {
         path="/patients"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN"]}>{withLayout(<Patients />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<Patients />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -62,7 +62,7 @@ export default function AppRoutes() {
         path="/add-patient"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN"]}>{withLayout(<AddPatient />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<AddPatient />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -71,7 +71,7 @@ export default function AppRoutes() {
         path="/patients/:id"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN"]}>{withLayout(<PatientDetails />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<PatientDetails />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -79,7 +79,7 @@ export default function AppRoutes() {
         path="/patients/edit/:id"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN"]}>{withLayout(<EditPatient />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<EditPatient />)}</RoleGuard>
           </AuthGuard>
         }
       />

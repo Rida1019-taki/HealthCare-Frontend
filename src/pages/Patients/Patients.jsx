@@ -11,8 +11,8 @@ export default function Patients() {
     <div className="page-stack">
       <section className="page-hero page-hero--compact">
         <div>
-          <span className="section__eyebrow">Administration • Patients</span>
-          <h1>Patient Management</h1>
+          <span className="section__eyebrow">Clinical Directory • Patients</span>
+          <h1>Patient Management & Directory</h1>
           <p>Organize patient records, demographic details, contact information and clinical dossiers.</p>
         </div>
 

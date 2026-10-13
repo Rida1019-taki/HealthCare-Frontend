@@ -134,6 +134,17 @@ export default function Dashboard() {
                 New Appointment
               </Link>
             </div>
+          ) : role === "MEDECIN" ? (
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "flex-end" }}>
+              <Link to="/add-patient" className="button button--primary">
+                <FaUserPlus />
+                Add Patient
+              </Link>
+              <Link to="/appointments/add" className="button button--secondary">
+                <FaPlus />
+                New Appointment
+              </Link>
+            </div>
           ) : (
             <Link to="/appointments/add" className="button button--primary">
               <FaPlus />
@@ -255,6 +266,14 @@ export default function Dashboard() {
             )}
             {role === "MEDECIN" && (
               <>
+                <Link to="/patients" className="quick-action">
+                  <FaUsers />
+                  <span>Patients List</span>
+                </Link>
+                <Link to="/add-patient" className="quick-action">
+                  <FaUserPlus />
+                  <span>Add Patient</span>
+                </Link>
                 <Link to="/appointments" className="quick-action">
                   <FaCalendarCheck />
                   <span>My Consultations</span>
@@ -306,7 +325,7 @@ export default function Dashboard() {
               <span className="section__eyebrow">Intake</span>
               <h2>Recent Patients</h2>
             </div>
-            {role === "ADMIN" && (
+            {(role === "ADMIN" || role === "MEDECIN") && (
               <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
                 <Link to="/add-patient" className="text-link" style={{ fontWeight: 600 }}>
                   + Add
@@ -333,7 +352,7 @@ export default function Dashboard() {
                     </strong>
                     <span>{patient.telephone ? `Tel: ${patient.telephone}` : "No phone listed"}</span>
                   </div>
-                  {role === "ADMIN" && (
+                  {(role === "ADMIN" || role === "MEDECIN") && (
                     <Link to={`/patients/${patient.id}`} className="action-link action-link--view">
                       View
                     </Link>

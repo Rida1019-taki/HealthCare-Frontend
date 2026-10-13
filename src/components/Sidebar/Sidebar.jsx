@@ -22,7 +22,14 @@ const adminNav = [
   { to: "/add-doctor", label: "Add Doctor", icon: FaUserPlus },
 ];
 
-const clinicalNav = [
+const doctorNav = [
+  { to: "/patients", label: "Patients Directory", icon: FaUsers },
+  { to: "/add-patient", label: "Add Patient", icon: FaUserPlus },
+  { to: "/appointments", label: "Consultations", icon: FaCalendarCheck },
+  { to: "/medical-records", label: "Medical Records", icon: FaFileAlt },
+];
+
+const patientNav = [
   { to: "/appointments", label: "Appointments", icon: FaCalendarCheck },
   { to: "/medical-records", label: "Medical Records", icon: FaFileAlt },
 ];
@@ -38,13 +45,16 @@ export default function Sidebar({ open, onClose }) {
   const rawRole = localStorage.getItem("role") || "";
   const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
   const isAdmin = role === "ADMIN";
-  const userLabel = isAdmin ? "Administrator" : role === "MEDECIN" ? "Physician" : "Patient";
-  const sectionTitle = isAdmin ? "Clinical Operations" : role === "MEDECIN" ? "Clinical Care" : "Patient Portal";
+  const isDoctor = role === "MEDECIN";
+  const userLabel = isAdmin ? "Administrator" : isDoctor ? "Physician" : "Patient";
+  const sectionTitle = isAdmin ? "Clinical Operations" : isDoctor ? "Clinical Care" : "Patient Portal";
 
   const logout = () => {
     localStorage.clear();
     navigate("/login");
   };
+
+  const primaryItems = isDoctor ? doctorNav : patientNav;
 
   return (
     <aside className={`sidebar ${open ? "open" : ""}`}>
@@ -59,7 +69,7 @@ export default function Sidebar({ open, onClose }) {
       </div>
 
       <nav className="sidebar__nav" aria-label="Clinical Navigation">
-        {isAdmin && (
+        {isAdmin ? (
           <>
             <div style={{ padding: "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
               Administration & Management
@@ -79,27 +89,48 @@ export default function Sidebar({ open, onClose }) {
                 </NavLink>
               );
             })}
+
+            <div style={{ padding: "1rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
+              Clinical Operations
+            </div>
+
+            {patientNav.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  onClick={onClose}
+                  className={({ isActive }) => `sidebar__link ${isActive ? "active" : ""}`}
+                >
+                  <Icon />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            <div style={{ padding: "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
+              {sectionTitle}
+            </div>
+
+            {primaryItems.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  onClick={onClose}
+                  className={({ isActive }) => `sidebar__link ${isActive ? "active" : ""}`}
+                >
+                  <Icon />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
           </>
         )}
-
-        <div style={{ padding: isAdmin ? "1rem 0.5rem 0.35rem" : "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
-          {sectionTitle}
-        </div>
-
-        {clinicalNav.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.label}
-              to={item.to}
-              onClick={onClose}
-              className={({ isActive }) => `sidebar__link ${isActive ? "active" : ""}`}
-            >
-              <Icon />
-              <span>{item.label}</span>
-            </NavLink>
-          );
-        })}
 
         <div style={{ padding: "1rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
           Account & Preferences
