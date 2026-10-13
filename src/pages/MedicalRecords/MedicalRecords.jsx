@@ -5,6 +5,9 @@ import { FaFileMedical, FaPlus } from "react-icons/fa";
 export default function MedicalRecords() {
   const navigate = useNavigate();
 
+  const rawRole = localStorage.getItem("role") || "";
+  const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+
   return (
     <div className="page-stack">
       <section className="page-hero page-hero--compact">
@@ -14,10 +17,12 @@ export default function MedicalRecords() {
           <p>Keep diagnoses, observations and treatment notes organized in one secure space.</p>
         </div>
 
-        <button className="button button--primary" onClick={() => navigate("/medical-records/add")}>
-          <FaPlus />
-          Add record
-        </button>
+        {role !== "PATIENT" && (
+          <button className="button button--primary" onClick={() => navigate("/medical-records/add")}>
+            <FaPlus />
+            Add record
+          </button>
+        )}
       </section>
 
       <section className="surface-card">

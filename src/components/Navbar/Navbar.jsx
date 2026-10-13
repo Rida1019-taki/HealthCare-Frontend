@@ -3,70 +3,81 @@ import {
   FaBars,
   FaBell,
   FaHeartbeat,
-  FaSearch,
   FaUserCircle,
 } from "react-icons/fa";
 import "./Navbar.css";
 
 const publicLinks = [
-  { to: "#features", label: "Features" },
-  { to: "#workflow", label: "How It Works" },
-  { to: "#why", label: "Why HealthCare+" },
+  { to: "/#features", label: "Features" },
+  { to: "/#workflow", label: "Clinical Workflow" },
+  { to: "/#why", label: "Security & Standards" },
+  { to: "/about", label: "About Platform" },
 ];
 
 const pageTitles = {
-  "/dashboard": "Dashboard",
-  "/patients": "Patients",
-  "/doctors": "Doctors",
-  "/appointments": "Appointments",
-  "/medical-records": "Medical Records",
-  "/notifications": "Notifications",
-  "/profile": "Profile",
-  "/settings": "Settings",
-  "/patients/add": "Add Patient",
-  "/add-patient": "Add Patient",
-  "/add-doctor": "Add Doctor",
-  "/medical-records/add": "Add Medical Record",
-  "/appointments/add": "Add Appointment",
+  "/dashboard": "Clinical Dashboard",
+  "/patients": "Patient Management",
+  "/doctors": "Medical Staff Directory",
+  "/appointments": "Appointment Scheduling",
+  "/medical-records": "Electronic Health Records",
+  "/notifications": "Notifications & Alerts",
+  "/profile": "User Profile & Account",
+  "/settings": "Workspace Settings",
+  "/patients/add": "Register Patient",
+  "/add-patient": "Register Patient",
+  "/add-doctor": "Register Physician",
+  "/medical-records/add": "File Medical Dossier",
+  "/appointments/add": "Schedule Consultation",
 };
 
 function Navbar({ variant = "public", title, onMenuToggle }) {
   const location = useLocation();
-  const role = localStorage.getItem("role") || "USER";
-  const userLabel = role === "ADMIN" ? "Administrator" : role === "MEDECIN" ? "Doctor" : "Patient";
-  const pageTitle = title || pageTitles[location.pathname] || "HealthCare+";
+  const token = localStorage.getItem("token");
+  const rawRole = localStorage.getItem("role") || "";
+  const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+  const userLabel = role === "ADMIN" ? "Administrator" : role === "MEDECIN" ? "Physician" : "Patient";
+  const username = localStorage.getItem("username") || userLabel;
+  const pageTitle = title || pageTitles[location.pathname] || "Medical Workspace";
+  const workspacePath = role === "ADMIN" ? "/dashboard" : "/appointments";
 
   if (variant === "app") {
     return (
       <header className="app-navbar">
         <div className="app-navbar__left">
-          <button type="button" className="icon-button app-navbar__menu" onClick={onMenuToggle} aria-label="Open menu">
+          <button
+            type="button"
+            className="icon-button app-navbar__menu"
+            onClick={onMenuToggle}
+            aria-label="Open clinical navigation"
+          >
             <FaBars />
           </button>
 
-          <div className="brand brand--compact">
-            <span className="brand__mark">
-              <FaHeartbeat />
-            </span>
-            <div>
-              <span className="brand__name">HealthCare+</span>
-              <span className="brand__caption">Medical workspace</span>
-            </div>
-          </div>
-
           <div className="app-navbar__title">
-            <p className="eyebrow">Workspace</p>
+            <p className="eyebrow">Clinical Center</p>
             <h1>{pageTitle}</h1>
           </div>
         </div>
 
         <div className="app-navbar__right">
-          <button type="button" className="icon-button" aria-label="Search">
-            <FaSearch />
-          </button>
-
-          <Link to="/notifications" className="icon-button" aria-label="Notifications">
+          <Link
+            to="/notifications"
+            className="icon-button"
+            aria-label="Clinical notifications"
+            style={{ position: "relative" }}
+          >
             <FaBell />
+            <span
+              style={{
+                position: "absolute",
+                top: "6px",
+                right: "6px",
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                backgroundColor: "var(--danger)",
+              }}
+            />
           </Link>
 
           <Link to="/profile" className="app-navbar__profile">
@@ -74,8 +85,8 @@ function Navbar({ variant = "public", title, onMenuToggle }) {
               <FaUserCircle />
             </div>
             <div className="app-navbar__meta">
-              <strong>{userLabel}</strong>
-              <span>{role}</span>
+              <strong>{username}</strong>
+              <span>{userLabel}</span>
             </div>
           </Link>
         </div>
@@ -91,7 +102,7 @@ function Navbar({ variant = "public", title, onMenuToggle }) {
         </span>
         <div>
           <span className="brand__name">HealthCare+</span>
-          <span className="brand__caption">Secure healthcare operations</span>
+          <span className="brand__caption">Clinical Information System</span>
         </div>
       </Link>
 
@@ -104,12 +115,20 @@ function Navbar({ variant = "public", title, onMenuToggle }) {
       </nav>
 
       <div className="public-navbar__actions">
-        <Link to="/login" className="button button--ghost">
-          Sign in
-        </Link>
-        <Link to="/register" className="button button--primary">
-          Get Started
-        </Link>
+        {token ? (
+          <Link to={workspacePath} className="button button--primary">
+            Enter Workspace
+          </Link>
+        ) : (
+          <>
+            <Link to="/login" className="button button--ghost">
+              Sign In
+            </Link>
+            <Link to="/register" className="button button--primary">
+              Register Account
+            </Link>
+          </>
+        )}
       </div>
     </header>
   );

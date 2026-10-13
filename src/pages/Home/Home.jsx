@@ -15,118 +15,161 @@ import {
 } from "react-icons/fa";
 
 const features = [
-  { title: "Patient profiles", text: "Keep contact details, history, and context in one reliable record.", icon: FaUsers },
-  { title: "Scheduling", text: "Coordinate visits, status changes, and follow-ups without clutter.", icon: FaCalendarCheck },
-  { title: "Medical records", text: "Review diagnoses, notes, and treatment history from a single place.", icon: FaFileAlt },
-  { title: "Secure access", text: "Protect the workspace with role-aware authentication and sessions.", icon: FaLock },
-  { title: "Notifications", text: "Surface reminders and updates that teams can act on quickly.", icon: FaBell },
-  { title: "Reporting", text: "Check the current activity level of the practice at a glance.", icon: FaChartLine },
+  {
+    title: "Patient Electronic Records",
+    text: "Centralize medical history, diagnoses, contact details, and vital demographics in an encrypted registry.",
+    icon: FaUsers,
+  },
+  {
+    title: "Clinical Appointment Scheduling",
+    text: "Coordinate practitioner schedules, confirm consultations, and manage pending intake requests seamlessly.",
+    icon: FaCalendarCheck,
+  },
+  {
+    title: "Diagnostic & EHR Notes",
+    text: "Create structured clinical observations, diagnosis records, and export comprehensive PDF patient reports.",
+    icon: FaFileAlt,
+  },
+  {
+    title: "Role-Based Access Governance",
+    text: "Enforce strict role separation between Administrators, Physicians, and Patients for data confidentiality.",
+    icon: FaLock,
+  },
+  {
+    title: "Real-Time Activity Monitoring",
+    text: "Track practice workload, active consultations, and operational alerts across the medical center.",
+    icon: FaBell,
+  },
+  {
+    title: "Operational Practice Reporting",
+    text: "Gain visibility into patient inflow, appointment completion rates, and provider utilization.",
+    icon: FaChartLine,
+  },
 ];
 
 const steps = [
   {
-    title: "Set up the workspace",
-    text: "Register your account and choose the role that matches your responsibilities.",
+    title: "Secure Authentication & Role Onboarding",
+    text: "Sign in with multi-role credentials (Administrator, Medical Doctor, or Patient) with immediate permission provisioning.",
   },
   {
-    title: "Organize the care flow",
-    text: "Track patients, appointments, and records in a structured workspace.",
+    title: "Clinical Record Management & Scheduling",
+    text: "Manage patient dossiers, schedule upcoming appointments, and record clinical diagnoses with ease.",
   },
   {
-    title: "Keep everyone aligned",
-    text: "Use notifications and dashboards to keep handoffs clear across the team.",
+    title: "Report Generation & Coordinated Care",
+    text: "Instantly compile patient dossiers into standardized PDF summaries for clinical handoffs and compliance.",
   },
 ];
 
 const benefits = [
-  { title: "Governed", text: "Access is structured so the right people see the right information." },
-  { title: "Focused", text: "The interface keeps attention on tasks, not on visual noise." },
-  { title: "Consistent", text: "Navigation, spacing, and hierarchy stay predictable across screens." },
-  { title: "Fast", text: "Important actions stay within a short reach from anywhere in the app." },
+  {
+    title: "Clinical Confidentiality",
+    text: "Strict data privacy standards designed for medical information workflows and role-scoped permissions.",
+  },
+  {
+    title: "Zero Visual Clutter",
+    text: "High-density, calm ergonomic layout designed for practitioners who need speed, accuracy, and focus.",
+  },
+  {
+    title: "Exportable Reports",
+    text: "Generate official PDF medical records and appointment schedules with a single click.",
+  },
+  {
+    title: "Responsive Care Coordination",
+    text: "Engineered for desktops, consultation room tablets, and mobile devices without losing operational fidelity.",
+  },
 ];
 
 function Home() {
+  const token = localStorage.getItem("token");
+  const rawRole = localStorage.getItem("role") || "";
+  const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+  const workspacePath = role === "ADMIN" ? "/dashboard" : "/appointments";
+
   return (
     <div className="landing-page">
       <Navbar variant="public" />
 
       <main className="landing-main">
+        {/* Hero Section */}
         <section className="landing-hero">
           <div className="landing-hero__copy">
-            <span className="section__eyebrow">Clinical operations platform</span>
-            <h1>Built for the rhythm of a real clinic.</h1>
+            <span className="section__eyebrow">Enterprise Healthcare Information System</span>
+            <h1>Clinical Management Built for Medical Excellence</h1>
             <p className="landing-hero__lede">
-              A calm, professional workspace for patient coordination, scheduling, records, and secure team access.
+              HealthCare+ provides medical centers, clinicians, and patients with a unified platform for electronic health records, consultation scheduling, and secure care workflows.
             </p>
 
             <div className="landing-hero__actions">
-              <Link to="/register" className="button button--primary">
-                Get Started
-                <FaArrowRight />
-              </Link>
-              <a href="#features" className="button button--ghost">
-                Explore Features
-              </a>
+              {token ? (
+                <Link to={workspacePath} className="button button--primary">
+                  Enter Medical Workspace
+                  <FaArrowRight />
+                </Link>
+              ) : (
+                <>
+                  <Link to="/register" className="button button--primary">
+                    Create Practice Account
+                    <FaArrowRight />
+                  </Link>
+                  <a href="#features" className="button button--ghost">
+                    Explore Platform Features
+                  </a>
+                </>
+              )}
             </div>
 
             <div className="landing-hero__trust">
               <span>
                 <FaShieldAlt />
-                Protected access
+                Role-Based Access
               </span>
               <span>
                 <FaCheckCircle />
-                Role-based control
+                PDF Dossier Generation
               </span>
               <span>
-                <FaCheckCircle />
-                Clear daily workflow
+                <FaHeartbeat />
+                Doctor & Patient Portals
               </span>
             </div>
           </div>
 
+          {/* Realistic Clinical Preview UI */}
           <div className="landing-hero__preview" aria-hidden="true">
-            <div className="preview-stack preview-stack--top">
-              <div className="preview-card preview-card--metric">
-                <span className="preview-card__label">Operations today</span>
-                <strong>24 appointments</strong>
-                <p>3 confirmed, 2 pending, and 1 urgent follow-up waiting review.</p>
-              </div>
+            <div className="preview-card preview-card--metric">
+              <span className="preview-card__label">Real-Time Clinical Status</span>
+              <strong>Today&apos;s Schedule Overview</strong>
+              <p>Active consultations, diagnostic reviews, and patient registry metrics.</p>
+            </div>
 
-              <div className="preview-card preview-card--list">
-                <div className="preview-card__row">
-                  <div>
-                    <strong>Sarah Jenkins</strong>
-                    <span>Cardiology • 10:00 AM</span>
-                  </div>
-                  <span className="preview-status preview-status--success">Confirmed</span>
+            <div className="preview-card preview-card--list">
+              <div className="preview-card__row">
+                <div>
+                  <strong>Sarah Jenkins</strong>
+                  <span>Cardiology Consultation • 10:00 AM</span>
                 </div>
-                <div className="preview-card__row">
-                  <div>
-                    <strong>Michael Chen</strong>
-                    <span>Neurology • 11:30 AM</span>
-                  </div>
-                  <span className="preview-status preview-status--warning">Pending</span>
+                <span className="preview-status preview-status--success">Confirmed</span>
+              </div>
+              <div className="preview-card__row">
+                <div>
+                  <strong>Michael Chen</strong>
+                  <span>Neurology Follow-up • 11:30 AM</span>
                 </div>
-                <div className="preview-card__row">
-                  <div>
-                    <strong>Elena Rodriguez</strong>
-                    <span>Pediatrics • 01:15 PM</span>
-                  </div>
-                  <span className="preview-status preview-status--danger">Urgent</span>
+                <span className="preview-status preview-status--warning">Pending</span>
+              </div>
+              <div className="preview-card__row">
+                <div>
+                  <strong>Elena Rodriguez</strong>
+                  <span>Pediatrics Assessment • 01:15 PM</span>
                 </div>
+                <span className="preview-status preview-status--success">Confirmed</span>
               </div>
             </div>
 
-            <div className="preview-card preview-card--workflow">
-              <div className="preview-card__header">
-                <div>
-                  <span className="preview-card__label">Clinical control</span>
-                  <strong>Workspace snapshot</strong>
-                </div>
-                <FaHeartbeat />
-              </div>
-
+            <div className="preview-card">
+              <span className="preview-card__label">EHR Statistics</span>
               <div className="preview-grid">
                 <div>
                   <span>Patients</span>
@@ -137,37 +180,39 @@ function Home() {
                   <strong>342</strong>
                 </div>
                 <div>
-                  <span>Doctors</span>
-                  <strong>09</strong>
+                  <span>Physicians</span>
+                  <strong>14</strong>
                 </div>
                 <div>
-                  <span>Unread</span>
-                  <strong>06</strong>
+                  <span>Completed</span>
+                  <strong>98%</strong>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Security & Standard Compliance Band */}
         <section className="trust-band">
-          <div>Encrypted records</div>
-          <div>Team-ready access</div>
-          <div>Appointment visibility</div>
-          <div>Dashboard reporting</div>
+          <div>Role-Based Permissions</div>
+          <div>Encrypted Electronic Health Records</div>
+          <div>Physician & Patient Portals</div>
+          <div>PDF Clinical Exporting</div>
         </section>
 
+        {/* Features Section */}
         <section id="features" className="landing-section">
           <div className="section__header">
-            <span className="section__eyebrow">Features</span>
-            <h2>Everything important, organized with restraint.</h2>
-            <p>The product stays quiet and structured so the care workflow feels under control.</p>
+            <span className="section__eyebrow">Platform Capabilities</span>
+            <h2>Complete Clinical Workflow Management</h2>
+            <p>Designed to support the day-to-day requirements of practitioners, clinic administrators, and patients.</p>
           </div>
 
           <div className="feature-grid">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <article key={feature.title} className="feature-card feature-card--numbered">
+                <article key={feature.title} className="feature-card">
                   <div className="feature-card__top">
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <Icon />
@@ -180,13 +225,13 @@ function Home() {
           </div>
         </section>
 
+        {/* Workflow Section */}
         <section id="workflow" className="landing-section landing-section--split">
-          <div className="landing-panel">
-            <span className="section__eyebrow">How it works</span>
-            <h2>Three steps to a clearer clinical workflow.</h2>
+          <div className="section__header">
+            <span className="section__eyebrow">Operational Flow</span>
+            <h2>Structured for Rapid Clinical Handoffs</h2>
             <p>
-              The product is designed to feel immediate: sign in, organize data, and keep the team aligned around the
-              same source of truth.
+              From patient intake to post-consultation diagnosis filing, the platform maintains a continuous, documented audit trail.
             </p>
           </div>
 
@@ -203,13 +248,13 @@ function Home() {
           </div>
         </section>
 
+        {/* Why HealthCare+ Section */}
         <section id="why" className="landing-section landing-section--why">
-          <div className="landing-panel">
-            <span className="section__eyebrow">Why HealthCare+</span>
-            <h2>A professional interface that helps the system feel under control.</h2>
+          <div className="section__header">
+            <span className="section__eyebrow">Clinical Reliability</span>
+            <h2>Why Healthcare Facilities Trust HealthCare+</h2>
             <p>
-              The design focuses on hierarchy, readable data tables, and low-friction navigation. It should feel like
-              a real product used in a clinic, not a demo.
+              Built specifically for clinical environments requiring clear information architecture, high legibility, and dependable access controls.
             </p>
           </div>
 
@@ -223,15 +268,16 @@ function Home() {
           </div>
         </section>
 
+        {/* Call to Action */}
         <section className="cta-panel">
           <div>
-            <span className="section__eyebrow">Ready to begin</span>
-            <h2>Create your HealthCare+ account.</h2>
-            <p>Set up the workspace and start managing care with clarity and confidence.</p>
+            <span className="section__eyebrow">Get Started</span>
+            <h2>Empower Your Medical Practice Today</h2>
+            <p>Set up your account to start managing patients, appointments, and electronic medical dossiers.</p>
           </div>
 
           <Link to="/register" className="button button--primary">
-            Get Started
+            Register Medical Account
             <FaArrowRight />
           </Link>
         </section>

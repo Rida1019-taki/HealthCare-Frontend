@@ -1,3 +1,4 @@
+
 import { Routes, Route } from "react-router-dom";
 import AppLayout from "../components/Layout/AppLayout";
 import Home from "../pages/Home/Home";
@@ -119,7 +120,7 @@ export default function AppRoutes() {
         path="/medical-records"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<MedicalRecords />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN", "PATIENT"]}>{withLayout(<MedicalRecords />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -127,7 +128,7 @@ export default function AppRoutes() {
         path="/medical-records/:id"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<MedicalRecordDetails />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN", "PATIENT"]}>{withLayout(<MedicalRecordDetails />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -152,7 +153,7 @@ export default function AppRoutes() {
         path="/appointments"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<Appointments />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN", "PATIENT"]}>{withLayout(<Appointments />)}</RoleGuard>
           </AuthGuard>
         }
       />
@@ -160,7 +161,7 @@ export default function AppRoutes() {
         path="/appointments/add"
         element={
           <AuthGuard>
-            <RoleGuard roles={["ADMIN", "MEDECIN"]}>{withLayout(<AddAppointment />)}</RoleGuard>
+            <RoleGuard roles={["ADMIN", "MEDECIN", "PATIENT"]}>{withLayout(<AddAppointment />)}</RoleGuard>
           </AuthGuard>
         }
       />

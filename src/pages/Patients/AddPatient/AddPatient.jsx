@@ -1,156 +1,157 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import api from "../../../services/api";
-
-import {
-    FaUser,
-    FaPhone,
-    FaCalendarAlt,
-} from "react-icons/fa";
-
-import {toast} from "react-toastify";
+import { FaUser, FaPhone, FaCalendarAlt, FaArrowLeft, FaCheck } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { handleApiError } from "../../../utils/errorHandler";
 
 const schema = yup.object({
-    nom: yup
-        .string()
-        .required("Le nom est obligatoire"),
-
-    prenom: yup
-        .string()
-        .required("Le prénom est obligatoire"),
-
-    telephone: yup
-        .number()
-        .typeError("Le téléphone doit être un nombre")
-        .required("Le téléphone est obligatoire"),
-
-    dateNaissance: yup
-        .date()
-        .required("La date de naissance est obligatoire"),
+  nom: yup.string().required("Last name is required"),
+  prenom: yup.string().required("First name is required"),
+  telephone: yup
+    .number()
+    .typeError("Phone must be a valid number")
+    .required("Phone number is required"),
+  dateNaissance: yup
+    .date()
+    .typeError("Please select a valid date of birth")
+    .required("Date of birth is required"),
 });
 
 function AddPatient() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
+  const onSubmit = async (data) => {
+    try {
+      await api.post("/api/patients", {
+        nom: data.nom.trim(),
+        prenom: data.prenom.trim(),
+        telephone: Number(data.telephone),
+        dateNaissance: data.dateNaissance,
+      });
+      toast.success("Patient registered successfully!");
+      reset();
+      navigate("/patients");
+    } catch (error) {
+      handleApiError(error);
+    }
+  };
 
-    const onSubmit = async (data) => {
+  return (
+    <div className="page-stack">
+      <section className="page-hero page-hero--compact">
+        <div>
+          <span className="section__eyebrow">Patient Management</span>
+          <h1>Register New Patient</h1>
+          <p>Create a medical profile and clinical dossier entry for a new patient.</p>
+        </div>
 
-        try {
+        <Link to="/patients" className="button button--secondary">
+          <FaArrowLeft />
+          Back to Directory
+        </Link>
+      </section>
 
-            const response = await api.post("/api/patients", {
-                nom: data.nom,
-                prenom: data.prenom,
-                telephone: Number(data.telephone),
-                dateNaissance: data.dateNaissance,
-            });
-            toast.success("Patient added successfully");
-            console.log(response.data);
+      <section className="surface-card">
+        <div className="surface-card__header">
+          <div>
+            <span className="section__eyebrow">Demographics</span>
+            <h2>Patient Information</h2>
+          </div>
+        </div>
 
-            reset();
-
-            navigate("/patients");
-
-        } catch (error) {
-
-            console.error(error.response?.data || error);
-
-        }
-    };
-
-    return (
-        <div className="add-patient-page">
-
-            <div className="add-patient-card">
-
-                <div className="logo">+</div>
-
-                <h2>Ajouter un patient</h2>
-
-                <p className="subtitle">
-                    Remplissez les informations du patient.
-                </p>
-
-                <form onSubmit={handleSubmit(onSubmit)}>
-
-                    <label>Nom</label>
-
-                    <div className="input-box">
-                        <FaUser />
-
-                        <input
-                            type="text"
-                            placeholder="Nom"
-                            {...register("nom")}
-                        />
-                    </div>
-
-                    <small>{errors.nom?.message}</small>
-
-                    <label>Prénom</label>
-
-                    <div className="input-box">
-                        <FaUser />
-
-                        <input
-                            type="text"
-                            placeholder="Prénom"
-                            {...register("prenom")}
-                        />
-                    </div>
-
-                    <small>{errors.prenom?.message}</small>
-
-                    <label>Téléphone</label>
-
-                    <div className="input-box">
-                        <FaPhone />
-
-                        <input
-                            type="number"
-                            placeholder="0600000000"
-                            {...register("telephone")}
-                        />
-                    </div>
-
-                    <small>{errors.telephone?.message}</small>
-
-                    <label>Date de naissance</label>
-
-                    <div className="input-box">
-                        <FaCalendarAlt />
-
-                        <input
-                            type="date"
-                            {...register("dateNaissance")}
-                        />
-                    </div>
-
-                    <small>{errors.dateNaissance?.message}</small>
-
-                    <button
-                        type="submit"
-                        className="add-btn"
-                    >
-                        Ajouter
-                    </button>
-
-                </form>
-
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="field-grid">
+            <div className="field-group">
+              <label htmlFor="nom">Last Name (Nom) *</label>
+              <div className="input-shell">
+                <FaUser />
+                <input
+                  id="nom"
+                  type="text"
+                  placeholder="e.g. Dupont"
+                  {...register("nom")}
+                />
+              </div>
+              {errors.nom && <small className="field-error">{errors.nom.message}</small>}
             </div>
 
-        </div>
-    );
+            <div className="field-group">
+              <label htmlFor="prenom">First Name (Prénom) *</label>
+              <div className="input-shell">
+                <FaUser />
+                <input
+                  id="prenom"
+                  type="text"
+                  placeholder="e.g. Jean"
+                  {...register("prenom")}
+                />
+              </div>
+              {errors.prenom && <small className="field-error">{errors.prenom.message}</small>}
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="telephone">Phone Number *</label>
+              <div className="input-shell">
+                <FaPhone />
+                <input
+                  id="telephone"
+                  type="number"
+                  placeholder="e.g. 0612345678"
+                  {...register("telephone")}
+                />
+              </div>
+              {errors.telephone && <small className="field-error">{errors.telephone.message}</small>}
+            </div>
+
+            <div className="field-group">
+              <label htmlFor="dateNaissance">Date of Birth *</label>
+              <div className="input-shell">
+                <FaCalendarAlt />
+                <input
+                  id="dateNaissance"
+                  type="date"
+                  {...register("dateNaissance")}
+                />
+              </div>
+              {errors.dateNaissance && <small className="field-error">{errors.dateNaissance.message}</small>}
+            </div>
+          </div>
+
+          <div className="actions">
+            <button
+              type="submit"
+              className="button button--primary"
+              disabled={isSubmitting}
+            >
+              <FaCheck />
+              {isSubmitting ? "Registering Patient..." : "Register Patient"}
+            </button>
+
+            <button
+              type="button"
+              className="button button--secondary"
+              onClick={() => navigate("/patients")}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+  );
 }
 
 export default AddPatient;

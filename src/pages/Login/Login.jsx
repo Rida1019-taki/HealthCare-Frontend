@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -11,7 +11,6 @@ import {
   FaEyeSlash,
   FaHeartbeat,
   FaLock,
-  FaShieldAlt,
 } from "react-icons/fa";
 import api from "../../services/api";
 
@@ -34,6 +33,22 @@ function Login() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const rawRole = localStorage.getItem("role") || "";
+    const normalizedRole = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+
+    if (token) {
+      if (normalizedRole === "ADMIN") {
+        navigate("/dashboard", { replace: true });
+      } else if (normalizedRole === "MEDECIN" || normalizedRole === "PATIENT") {
+        navigate("/appointments", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
+    }
+  }, [navigate]);
+
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setAuthError("");
@@ -44,19 +59,20 @@ function Login() {
         password: data.password,
       });
 
+      const rawRole = response.data?.role || "";
+      const normalizedRole = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("role", normalizedRole);
       localStorage.setItem("profileId", response.data.profileId);
 
-      const role = response.data.role;
-
-      if (role === "ADMIN") {
+      if (normalizedRole === "ADMIN") {
         navigate("/dashboard");
-      } else if (role === "MEDECIN") {
+      } else if (normalizedRole === "MEDECIN" || normalizedRole === "PATIENT") {
         navigate("/appointments");
       } else {
-        navigate("/home");
+        navigate("/dashboard");
       }
     } catch (error) {
       setAuthError(
@@ -84,49 +100,44 @@ function Login() {
           </div>
 
           <div className="auth-panel__copy">
-            <span className="section__eyebrow">Professional access</span>
-            <h1>Work faster, with less friction.</h1>
+            <span className="section__eyebrow">Medical Portal Access</span>
+            <h1>Secure Clinical Workspace</h1>
             <p>
-              Sign in to manage patients, appointments, and records in a workspace designed for clear clinical
-              operations.
+              Sign in to manage patient records, consultation schedules, and clinical dossiers with verified role-based permissions.
             </p>
           </div>
 
           <ul className="auth-proof">
             <li>
-              <FaCheckCircle /> Centralized patient and appointment workflows
+              <FaCheckCircle /> Protected Electronic Health Records (EHR)
             </li>
             <li>
-              <FaCheckCircle /> Clear role-based access for teams
+              <FaCheckCircle /> Multi-Role Access (Doctor, Admin, Patient)
             </li>
             <li>
-              <FaCheckCircle /> Fast, focused interface with subtle interactions
+              <FaCheckCircle /> PDF Report Compilation & Exporting
             </li>
           </ul>
 
           <div className="auth-illustration">
-            <div className="mini-card mini-card--primary">
-              <strong>Secure login</strong>
-              <span>Protected authentication and clean session management.</span>
-            </div>
             <div className="mini-card">
-              <FaShieldAlt />
-              <span>Built for privacy-first healthcare teams</span>
+              <strong>Patient Confidentiality</strong>
+              <span>Medical records and diagnosis observations are safeguarded under strict clinical privacy standards.</span>
             </div>
           </div>
 
           <div className="auth-metrics">
             <div className="auth-metric">
-              <strong>99.9%</strong>
-              <span>Session integrity</span>
+              <strong>AES-256</strong>
+              <span>Data Protection</span>
             </div>
             <div className="auth-metric">
-              <strong>24/7</strong>
-              <span>Workspace access</span>
+              <strong>RBAC</strong>
+              <span>Role Permissions</span>
             </div>
             <div className="auth-metric">
-              <strong>3 sec</strong>
-              <span>Typical sign in</span>
+              <strong>100%</strong>
+              <span>EHR Uptime</span>
             </div>
           </div>
         </aside>

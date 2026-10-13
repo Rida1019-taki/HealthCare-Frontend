@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -43,6 +43,20 @@ function Register() {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const rawRole = localStorage.getItem("role") || "";
+    const normalizedRole = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+
+    if (token) {
+      if (normalizedRole === "ADMIN") {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/appointments", { replace: true });
+      }
+    }
+  }, [navigate]);
+
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setAuthError("");
@@ -57,12 +71,19 @@ function Register() {
     try {
       const response = await api.post("/auth/register", registerData);
 
+      const rawRole = response.data?.role || "";
+      const normalizedRole = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
+
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userId", response.data.userId);
-      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("role", normalizedRole);
       localStorage.setItem("profileId", response.data.profileId);
 
-      navigate("/login");
+      if (normalizedRole === "ADMIN") {
+        navigate("/dashboard");
+      } else {
+        navigate("/appointments");
+      }
     } catch (error) {
       setAuthError(
         (typeof error.response?.data === "string"
@@ -89,37 +110,37 @@ function Register() {
           </div>
 
           <div className="auth-panel__copy">
-            <span className="section__eyebrow">Join the platform</span>
-            <h1>Start with a clean, secure healthcare workspace.</h1>
+            <span className="section__eyebrow">Medical Registration</span>
+            <h1>Register for HealthCare+</h1>
             <p>
-              Create your account and begin managing care information in a simple, professional environment.
+              Join the healthcare network to manage appointments, access clinical dossiers, or coordinate patient care.
             </p>
           </div>
 
           <ul className="auth-proof">
             <li>
-              <FaCheckCircle /> Professional onboarding flow
+              <FaCheckCircle /> Verified Doctor & Patient Account Provisioning
             </li>
             <li>
-              <FaCheckCircle /> Protected account setup
+              <FaCheckCircle /> Protected Health Information (PHI) Compliant
             </li>
             <li>
-              <FaCheckCircle /> Built for healthcare teams
+              <FaCheckCircle /> Instant Access to Scheduling & Health Records
             </li>
           </ul>
 
           <div className="auth-metrics">
             <div className="auth-metric">
-              <strong>Instant</strong>
-              <span>Account creation</span>
+              <strong>Patient</strong>
+              <span>Self-Care Portal</span>
             </div>
             <div className="auth-metric">
-              <strong>Role-based</strong>
-              <span>Access controls</span>
+              <strong>Physician</strong>
+              <span>Clinical Workspace</span>
             </div>
             <div className="auth-metric">
-              <strong>Encrypted</strong>
-              <span>Sign-up flow</span>
+              <strong>Secure</strong>
+              <span>End-to-End SSL</span>
             </div>
           </div>
         </aside>

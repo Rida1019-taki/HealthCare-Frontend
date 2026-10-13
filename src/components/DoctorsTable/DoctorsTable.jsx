@@ -5,7 +5,7 @@ import api from "../../services/api";
 import { handleApiError } from "../../utils/errorHandler";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 
-export default function StaffTable({ speciality }) {
+export default function StaffTable({ speciality = "" }) {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,9 +15,10 @@ export default function StaffTable({ speciality }) {
     const getDoctors = async () => {
       try {
         let response;
+        const query = (speciality || "").trim();
 
-        if (speciality.trim() !== "") {
-          response = await api.get(`/api/medecins/search?specialite=${speciality}`);
+        if (query !== "") {
+          response = await api.get(`/api/medecins/search?specialite=${query}`);
         } else {
           response = await api.get("/api/medecins");
         }

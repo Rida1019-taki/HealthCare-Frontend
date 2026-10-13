@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   FaCalendarAlt,
@@ -8,6 +8,7 @@ import {
   FaPlus,
   FaUserMd,
   FaUsers,
+  FaClock,
 } from "react-icons/fa";
 import api from "../../services/api";
 import StatsCard from "../../components/StatsCard/StatsCard";
@@ -21,147 +22,160 @@ export default function Dashboard() {
   const [appointments, setAppointments] = useState([]);
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
-  const role = localStorage.getItem("role");
+  const rawRole = localStorage.getItem("role") || "";
+  const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
-      const [patientsRes, doctorsRes, appointmentsRes, recordsRes] = await Promise.all([
-        api.get("/api/patients"),
-        api.get("/api/medecins"),
-        api.get("/api/rendezvous"),
-        api.get("/api/dossiers"),
-      ]);
+      if (role === "PATIENT") {
+        const [appointmentsRes, recordsRes] = await Promise.all([
+          api.get("/api/rendezvous/me").catch(() => ({ data: { content: [] } })),
+          api.get("/api/dossiers/me").catch(() => ({ data: null })),
+        ]);
+        setAppointments(appointmentsRes.data?.content || []);
+        setRecords(recordsRes.data ? [recordsRes.data] : []);
+        setPatients([]);
+        setDoctors([]);
+      } else {
+        const [patientsRes, doctorsRes, appointmentsRes, recordsRes] = await Promise.all([
+          api.get("/api/patients").catch(() => ({ data: { content: [] } })),
+          api.get("/api/medecins").catch(() => ({ data: { content: [] } })),
+          api.get("/api/rendezvous").catch(() => ({ data: { content: [] } })),
+          api.get("/api/dossiers").catch(() => ({ data: { content: [] } })),
+        ]);
 
-      setPatients(patientsRes.data.content || []);
-      setDoctors(doctorsRes.data.content || []);
-      setAppointments(appointmentsRes.data.content || []);
-      setRecords(recordsRes.data.content || []);
+        setPatients(patientsRes.data?.content || []);
+        setDoctors(doctorsRes.data?.content || []);
+        setAppointments(appointmentsRes.data?.content || []);
+        setRecords(recordsRes.data?.content || []);
+      }
     } catch (err) {
-      console.log(err);
+      console.error("Dashboard data load error:", err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [role]);
 
-  const roleLabel = role === "ADMIN" ? "Administrator" : role === "MEDECIN" ? "Doctor" : "Team member";
-  const upcomingAppointments = appointments.slice(0, 3);
-  const recentPatients = patients.slice(0, 4);
-  const pendingAppointments = appointments.filter(
-    (appointment) => String(appointment.statut || "").toLowerCase() === "pending"
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  const roleLabel = role === "ADMIN" ? "Administrator" : role === "MEDECIN" ? "Doctor" : "Patient";
+  const upcomingAppointments = appointments.slice(0, 5);
+  const recentPatients = patients.slice(0, 5);
+
+  const pendingAppointments = appointments.filter((appointment) =>
+    ["pending", "en_attente"].includes(String(appointment.statut || "").toLowerCase())
   ).length;
+
+  const confirmedAppointments = appointments.filter((appointment) =>
+    ["confirmed", "confirme"].includes(String(appointment.statut || "").toLowerCase())
+  ).length;
+
   const urgentAppointments = appointments.filter((appointment) =>
-    ["urgent", "critical"].includes(String(appointment.statut || "").toLowerCase())
+    ["urgent", "critical", "annule"].includes(String(appointment.statut || "").toLowerCase())
   ).length;
+
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   return (
     <div className="page-stack">
+      {/* Executive Clinical Header */}
       <section className="page-hero">
         <div className="page-hero__content">
-          <span className="section__eyebrow">Clinical dashboard</span>
-          <h1>Good morning, {roleLabel}</h1>
+          <span className="section__eyebrow">Clinical Center • Daily Operations</span>
+          <h1>Welcome, {roleLabel}</h1>
           <p>
-            A concise view of today&apos;s activity, current workload, and the parts of the practice that need
-            attention.
+            {currentDate} — Overview of current patient intake, consultation schedule, and active records.
           </p>
 
           <div className="page-hero__chips">
-            <span className="page-hero__chip">Patients {patients.length}</span>
-            <span className="page-hero__chip">Appointments {appointments.length}</span>
-            <span className="page-hero__chip">Pending {pendingAppointments}</span>
-            <span className="page-hero__chip">Urgent {urgentAppointments}</span>
+            <span className="page-hero__chip">
+              <FaUsers />
+              {patients.length} Registered Patients
+            </span>
+            <span className="page-hero__chip">
+              <FaCalendarCheck />
+              {appointments.length} Consultations
+            </span>
+            <span className="page-hero__chip">
+              <span className="badge badge-confirme">{confirmedAppointments} Confirmed</span>
+            </span>
+            <span className="page-hero__chip">
+              <span className="badge badge-en_attente">{pendingAppointments} Pending Review</span>
+            </span>
+            {urgentAppointments > 0 && (
+              <span className="page-hero__chip">
+                <span className="badge badge-annule">{urgentAppointments} Cancelled / Urgent</span>
+              </span>
+            )}
           </div>
         </div>
 
         <div className="page-hero__actions">
           <Link to="/appointments/add" className="button button--primary">
             <FaPlus />
-            New appointment
+            New Appointment
           </Link>
         </div>
       </section>
 
-      <section className="dashboard-hero">
-        <div className="dashboard-hero__copy">
-          <span className="section__eyebrow">Today at a glance</span>
-          <h2>Operational clarity for the people running the clinic.</h2>
-          <p>
-            This panel surfaces the main load indicators so the team can react quickly without digging through the
-            tables below.
-          </p>
-        </div>
-
-        <div className="dashboard-hero__panel">
-          <div className="dashboard-hero__metric">
-            <span>Appointments</span>
-            <strong>{loading ? "..." : appointments.length}</strong>
-          </div>
-          <div className="dashboard-hero__metric">
-            <span>Pending</span>
-            <strong>{loading ? "..." : pendingAppointments}</strong>
-          </div>
-          <div className="dashboard-hero__metric">
-            <span>Urgent</span>
-            <strong>{loading ? "..." : urgentAppointments}</strong>
-          </div>
-          <div className="dashboard-hero__metric">
-            <span>Patients</span>
-            <strong>{loading ? "..." : patients.length}</strong>
-          </div>
-        </div>
-      </section>
-
+      {/* KPI Cards */}
       <section className="stats-grid">
         <StatsCard
           title="Total Patients"
-          value={loading ? "..." : patients.length}
+          value={loading ? "..." : role === "PATIENT" ? "1 Active" : patients.length}
           icon={<FaUsers />}
           tone="blue"
-          change="+12%"
+          change="Directory"
         />
         <StatsCard
-          title="Appointments"
+          title="All Consultations"
           value={loading ? "..." : appointments.length}
           icon={<FaCalendarCheck />}
           tone="cyan"
-          change="+5%"
+          change="This Month"
         />
         <StatsCard
-          title="Upcoming Appointments"
-          value={loading ? "..." : upcomingAppointments.length}
-          icon={<FaCalendarAlt />}
+          title="Pending Approvals"
+          value={loading ? "..." : pendingAppointments}
+          icon={<FaClock />}
           tone="gold"
-          change="Today"
+          change="Action Required"
         />
         <StatsCard
           title="Medical Records"
           value={loading ? "..." : records.length}
           icon={<FaFileAlt />}
           tone="green"
-          change="Active"
+          change="Archived & Active"
         />
       </section>
 
+      {/* Primary Clinical Operations Grid */}
       <section className="dashboard-grid">
-        <article className="surface-card surface-card--wide">
+        {/* Today's / Upcoming Appointments */}
+        <article className="surface-card">
           <div className="surface-card__header">
             <div>
-              <span className="section__eyebrow">Upcoming appointments</span>
-              <h2>Today&apos;s schedule</h2>
+              <span className="section__eyebrow">Schedule</span>
+              <h2>Upcoming Consultations</h2>
             </div>
             <Link to="/appointments" className="text-link">
-              View all
+              View all schedule →
             </Link>
           </div>
 
           <div className="mini-list">
             {upcomingAppointments.length === 0 ? (
-              <div className="empty-state empty-state--compact">
+              <div className="empty-state">
                 <FaCalendarAlt />
-                <p>No upcoming appointments yet.</p>
+                <p>No consultations scheduled yet.</p>
               </div>
             ) : (
               upcomingAppointments.map((appointment) => (
@@ -170,56 +184,112 @@ export default function Dashboard() {
                     <strong>
                       {appointment.patientNom} {appointment.patientPrenom}
                     </strong>
-                    <span>{appointment.medecinNom}</span>
+                    <span>
+                      Dr. {appointment.medecinNom} • {appointment.dateRendezVous || "Date TBD"}
+                    </span>
                   </div>
-                  <span className={`badge badge-${appointment.statut?.toLowerCase() || "default"}`}>{appointment.statut}</span>
+                  <span className={`badge badge-${String(appointment.statut || "").toLowerCase()}`}>
+                    {appointment.statut}
+                  </span>
                 </div>
               ))
             )}
           </div>
         </article>
 
+        {/* Quick Clinical Shortcuts */}
         <article className="surface-card">
           <div className="surface-card__header">
             <div>
-              <span className="section__eyebrow">Quick actions</span>
-              <h2>Shortcuts</h2>
+              <span className="section__eyebrow">Workflows</span>
+              <h2>Clinical Shortcuts</h2>
             </div>
           </div>
 
           <div className="quick-actions">
-            <Link to="/patients" className="quick-action">
-              <FaUsers />
-              <span>Patients</span>
-            </Link>
-            <Link to="/doctors" className="quick-action">
-              <FaUserMd />
-              <span>Doctors</span>
-            </Link>
-            <Link to="/medical-records/add" className="quick-action">
-              <FaNotesMedical />
-              <span>Add record</span>
-            </Link>
-            <Link to="/notifications" className="quick-action">
-              <FaCalendarCheck />
-              <span>Notifications</span>
-            </Link>
+            {role === "ADMIN" && (
+              <>
+                <Link to="/patients" className="quick-action">
+                  <FaUsers />
+                  <span>Patients Directory</span>
+                </Link>
+                <Link to="/doctors" className="quick-action">
+                  <FaUserMd />
+                  <span>Physician Directory</span>
+                </Link>
+                <Link to="/medical-records/add" className="quick-action">
+                  <FaNotesMedical />
+                  <span>File Medical Record</span>
+                </Link>
+                <Link to="/add-patient" className="quick-action">
+                  <FaPlus />
+                  <span>Register Patient</span>
+                </Link>
+              </>
+            )}
+            {role === "MEDECIN" && (
+              <>
+                <Link to="/appointments" className="quick-action">
+                  <FaCalendarCheck />
+                  <span>My Consultations</span>
+                </Link>
+                <Link to="/medical-records" className="quick-action">
+                  <FaFileAlt />
+                  <span>Patient EHR Files</span>
+                </Link>
+                <Link to="/medical-records/add" className="quick-action">
+                  <FaNotesMedical />
+                  <span>New Diagnosis Note</span>
+                </Link>
+                <Link to="/appointments/add" className="quick-action">
+                  <FaPlus />
+                  <span>Schedule Patient</span>
+                </Link>
+              </>
+            )}
+            {role === "PATIENT" && (
+              <>
+                <Link to="/appointments" className="quick-action">
+                  <FaCalendarCheck />
+                  <span>My Appointments</span>
+                </Link>
+                <Link to="/appointments/add" className="quick-action">
+                  <FaPlus />
+                  <span>Book Consultation</span>
+                </Link>
+                <Link to="/medical-records" className="quick-action">
+                  <FaFileAlt />
+                  <span>My Medical File</span>
+                </Link>
+                <Link to="/profile" className="quick-action">
+                  <FaUsers />
+                  <span>Personal Profile</span>
+                </Link>
+              </>
+            )}
           </div>
         </article>
       </section>
 
+      {/* Secondary Information Grid */}
       <section className="dashboard-grid dashboard-grid--three">
+        {/* Recent Patients */}
         <article className="surface-card">
           <div className="surface-card__header">
             <div>
-              <span className="section__eyebrow">Recent patients</span>
-              <h2>New and active patients</h2>
+              <span className="section__eyebrow">Intake</span>
+              <h2>Recent Patients</h2>
             </div>
+            {role === "ADMIN" && (
+              <Link to="/patients" className="text-link">
+                All
+              </Link>
+            )}
           </div>
 
           <div className="mini-list">
             {recentPatients.length === 0 ? (
-              <div className="empty-state empty-state--compact">
+              <div className="empty-state">
                 <FaUsers />
                 <p>No patient records available.</p>
               </div>
@@ -230,26 +300,31 @@ export default function Dashboard() {
                     <strong>
                       {patient.prenom} {patient.nom}
                     </strong>
-                    <span>{patient.telephone || "-"}</span>
+                    <span>{patient.telephone ? `Tel: ${patient.telephone}` : "No phone listed"}</span>
                   </div>
-                  <Link to={`/patients/${patient.id}`} className="text-link">
-                    View
-                  </Link>
+                  {role === "ADMIN" && (
+                    <Link to={`/patients/${patient.id}`} className="action-link action-link--view">
+                      View
+                    </Link>
+                  )}
                 </div>
               ))
             )}
           </div>
         </article>
 
+        {/* Clinical Alerts */}
         <article className="surface-card">
           <Alerts />
         </article>
 
+        {/* Medical Staff Overview */}
         <article className="surface-card">
           <StaffOverview doctors={doctors} />
         </article>
       </section>
 
+      {/* Recent Activity Audit Table */}
       <section className="surface-card">
         <ActivityTable />
       </section>
