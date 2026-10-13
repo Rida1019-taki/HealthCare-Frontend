@@ -9,6 +9,7 @@ import {
   FaUserMd,
   FaUsers,
   FaClock,
+  FaUserPlus,
 } from "react-icons/fa";
 import api from "../../services/api";
 import StatsCard from "../../components/StatsCard/StatsCard";
@@ -118,10 +119,27 @@ export default function Dashboard() {
         </div>
 
         <div className="page-hero__actions">
-          <Link to="/appointments/add" className="button button--primary">
-            <FaPlus />
-            New Appointment
-          </Link>
+          {role === "ADMIN" ? (
+            <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap", justifyContent: "flex-end" }}>
+              <Link to="/add-doctor" className="button button--primary">
+                <FaUserPlus />
+                Add Doctor
+              </Link>
+              <Link to="/add-patient" className="button button--secondary">
+                <FaUserPlus />
+                Add Patient
+              </Link>
+              <Link to="/appointments/add" className="button button--ghost">
+                <FaPlus />
+                New Appointment
+              </Link>
+            </div>
+          ) : (
+            <Link to="/appointments/add" className="button button--primary">
+              <FaPlus />
+              New Appointment
+            </Link>
+          )}
         </div>
       </section>
 
@@ -135,11 +153,11 @@ export default function Dashboard() {
           change="Directory"
         />
         <StatsCard
-          title="All Consultations"
-          value={loading ? "..." : appointments.length}
-          icon={<FaCalendarCheck />}
-          tone="cyan"
-          change="This Month"
+          title={role === "ADMIN" ? "Active Doctors" : "All Consultations"}
+          value={loading ? "..." : role === "ADMIN" ? doctors.length : appointments.length}
+          icon={role === "ADMIN" ? <FaUserMd /> : <FaCalendarCheck />}
+          tone={role === "ADMIN" ? "teal" : "cyan"}
+          change={role === "ADMIN" ? "Medical Staff" : "This Month"}
         />
         <StatsCard
           title="Pending Approvals"
@@ -211,19 +229,27 @@ export default function Dashboard() {
               <>
                 <Link to="/patients" className="quick-action">
                   <FaUsers />
-                  <span>Patients Directory</span>
+                  <span>Manage Patients</span>
+                </Link>
+                <Link to="/add-patient" className="quick-action">
+                  <FaUserPlus />
+                  <span>Add Patient</span>
                 </Link>
                 <Link to="/doctors" className="quick-action">
                   <FaUserMd />
-                  <span>Physician Directory</span>
+                  <span>Manage Doctors</span>
+                </Link>
+                <Link to="/add-doctor" className="quick-action">
+                  <FaUserPlus />
+                  <span>Add Doctor</span>
+                </Link>
+                <Link to="/appointments" className="quick-action">
+                  <FaCalendarCheck />
+                  <span>All Appointments</span>
                 </Link>
                 <Link to="/medical-records/add" className="quick-action">
                   <FaNotesMedical />
                   <span>File Medical Record</span>
-                </Link>
-                <Link to="/add-patient" className="quick-action">
-                  <FaPlus />
-                  <span>Register Patient</span>
                 </Link>
               </>
             )}
@@ -281,9 +307,14 @@ export default function Dashboard() {
               <h2>Recent Patients</h2>
             </div>
             {role === "ADMIN" && (
-              <Link to="/patients" className="text-link">
-                All
-              </Link>
+              <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                <Link to="/add-patient" className="text-link" style={{ fontWeight: 600 }}>
+                  + Add
+                </Link>
+                <Link to="/patients" className="text-link">
+                  All →
+                </Link>
+              </div>
             )}
           </div>
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PatientsTable from "../../components/PatientsTable/PatientsTable";
 import { Link } from "react-router-dom";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaUserPlus, FaSearch } from "react-icons/fa";
 
 export default function Patients() {
   const [search, setSearch] = useState("");
@@ -11,14 +11,14 @@ export default function Patients() {
     <div className="page-stack">
       <section className="page-hero page-hero--compact">
         <div>
-          <span className="section__eyebrow">Patients</span>
-          <h1>Patient management</h1>
-          <p>Organize patient records, contact details and clinical history.</p>
+          <span className="section__eyebrow">Administration • Patients</span>
+          <h1>Patient Management</h1>
+          <p>Organize patient records, demographic details, contact information and clinical dossiers.</p>
         </div>
 
         <Link to="/add-patient" className="button button--primary">
-          <FaPlus />
-          Add patient
+          <FaUserPlus />
+          Add Patient
         </Link>
       </section>
 

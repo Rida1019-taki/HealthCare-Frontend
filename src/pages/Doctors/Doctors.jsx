@@ -1,7 +1,7 @@
 import { useState } from "react";
 import StaffTable from "../../components/DoctorsTable/DoctorsTable";
 import { Link } from "react-router-dom";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaUserPlus, FaSearch } from "react-icons/fa";
 
 export default function Doctors() {
   const [speciality, setSpeciality] = useState("");
@@ -10,14 +10,14 @@ export default function Doctors() {
     <div className="page-stack">
       <section className="page-hero page-hero--compact">
         <div>
-          <span className="section__eyebrow">Doctors</span>
-          <h1>Doctor directory</h1>
-          <p>Manage doctors, specialties and availability from a clean workspace.</p>
+          <span className="section__eyebrow">Administration • Doctors</span>
+          <h1>Doctor & Physician Management</h1>
+          <p>Manage clinic physicians, specialties, contact info and practitioner profiles.</p>
         </div>
 
         <Link to="/add-doctor" className="button button--primary">
-          <FaPlus />
-          Add doctor
+          <FaUserPlus />
+          Add Doctor
         </Link>
       </section>
 

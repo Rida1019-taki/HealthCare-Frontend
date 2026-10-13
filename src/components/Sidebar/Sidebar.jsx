@@ -10,13 +10,19 @@ import {
   FaUserCircle,
   FaUserMd,
   FaUsers,
+  FaUserPlus,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
-const clinicalNav = [
+const adminNav = [
   { to: "/dashboard", label: "Dashboard", icon: FaHome },
-  { to: "/patients", label: "Patients", icon: FaUsers, roles: ["ADMIN"] },
-  { to: "/doctors", label: "Doctors", icon: FaUserMd, roles: ["ADMIN"] },
+  { to: "/patients", label: "Manage Patients", icon: FaUsers },
+  { to: "/add-patient", label: "Add Patient", icon: FaUserPlus },
+  { to: "/doctors", label: "Manage Doctors", icon: FaUserMd },
+  { to: "/add-doctor", label: "Add Doctor", icon: FaUserPlus },
+];
+
+const clinicalNav = [
   { to: "/appointments", label: "Appointments", icon: FaCalendarCheck },
   { to: "/medical-records", label: "Medical Records", icon: FaFileAlt },
 ];
@@ -31,15 +37,14 @@ export default function Sidebar({ open, onClose }) {
   const navigate = useNavigate();
   const rawRole = localStorage.getItem("role") || "";
   const role = rawRole.replace(/^ROLE_/, "").trim().toUpperCase();
-  const userLabel = role === "ADMIN" ? "Administrator" : role === "MEDECIN" ? "Physician" : "Patient";
+  const isAdmin = role === "ADMIN";
+  const userLabel = isAdmin ? "Administrator" : role === "MEDECIN" ? "Physician" : "Patient";
+  const sectionTitle = isAdmin ? "Clinical Operations" : role === "MEDECIN" ? "Clinical Care" : "Patient Portal";
 
   const logout = () => {
     localStorage.clear();
     navigate("/login");
   };
-
-  const visibleClinical = clinicalNav.filter((item) => !item.roles || item.roles.includes(role));
-  const visibleSystem = systemNav.filter((item) => !item.roles || item.roles.includes(role));
 
   return (
     <aside className={`sidebar ${open ? "open" : ""}`}>
@@ -54,11 +59,34 @@ export default function Sidebar({ open, onClose }) {
       </div>
 
       <nav className="sidebar__nav" aria-label="Clinical Navigation">
-        <div style={{ padding: "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
-          Clinical Operations
+        {isAdmin && (
+          <>
+            <div style={{ padding: "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
+              Administration & Management
+            </div>
+
+            {adminNav.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.label}
+                  to={item.to}
+                  onClick={onClose}
+                  className={({ isActive }) => `sidebar__link ${isActive ? "active" : ""}`}
+                >
+                  <Icon />
+                  <span>{item.label}</span>
+                </NavLink>
+              );
+            })}
+          </>
+        )}
+
+        <div style={{ padding: isAdmin ? "1rem 0.5rem 0.35rem" : "0.25rem 0.5rem 0.35rem", fontSize: "0.6875rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "var(--muted)" }}>
+          {sectionTitle}
         </div>
 
-        {visibleClinical.map((item) => {
+        {clinicalNav.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink
@@ -77,7 +105,7 @@ export default function Sidebar({ open, onClose }) {
           Account & Preferences
         </div>
 
-        {visibleSystem.map((item) => {
+        {systemNav.map((item) => {
           const Icon = item.icon;
           return (
             <NavLink

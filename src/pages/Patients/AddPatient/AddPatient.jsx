@@ -15,8 +15,7 @@ const schema = yup.object({
     .typeError("Phone must be a valid number")
     .required("Phone number is required"),
   dateNaissance: yup
-    .date()
-    .typeError("Please select a valid date of birth")
+    .string()
     .required("Date of birth is required"),
 });
 
@@ -34,11 +33,15 @@ function AddPatient() {
 
   const onSubmit = async (data) => {
     try {
+      const birthDate = data.dateNaissance instanceof Date
+        ? data.dateNaissance.toISOString().split("T")[0]
+        : String(data.dateNaissance || "").split("T")[0];
+
       await api.post("/api/patients", {
         nom: data.nom.trim(),
         prenom: data.prenom.trim(),
         telephone: Number(data.telephone),
-        dateNaissance: data.dateNaissance,
+        dateNaissance: birthDate,
       });
       toast.success("Patient registered successfully!");
       reset();
