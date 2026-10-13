@@ -14,7 +14,6 @@ import {
   FaLock,
   FaShieldAlt,
   FaUser,
-  FaUserMd,
 } from "react-icons/fa";
 
 const schema = yup.object({
@@ -25,7 +24,7 @@ const schema = yup.object({
     .string()
     .oneOf([yup.ref("password")], "Passwords do not match")
     .required("Please confirm your password"),
-  role: yup.string().required("Choose a role"),
+  role: yup.string().default("PATIENT"),
   terms: yup.boolean().oneOf([true], "Please accept the terms"),
 });
 
@@ -39,7 +38,6 @@ function Register() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -47,8 +45,6 @@ function Register() {
       role: "PATIENT",
     },
   });
-
-  const selectedRole = watch("role", "PATIENT");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -72,7 +68,7 @@ function Register() {
       username: data.username,
       email: data.email,
       password: data.password,
-      role: data.role,
+      role: data.role || "PATIENT",
     };
 
     try {
@@ -117,16 +113,16 @@ function Register() {
           </div>
 
           <div className="auth-panel__copy">
-            <span className="section__eyebrow">Medical Registration</span>
+            <span className="section__eyebrow">Patient Registration</span>
             <h1>Register for HealthCare+</h1>
             <p>
-              Join the healthcare network to manage appointments, access clinical dossiers, or coordinate patient care.
+              Join the healthcare network to manage appointments, access clinical dossiers, and consult with doctors.
             </p>
           </div>
 
           <ul className="auth-proof">
             <li>
-              <FaCheckCircle /> Verified Doctor & Patient Account Provisioning
+              <FaCheckCircle /> Verified Patient Account Provisioning
             </li>
             <li>
               <FaCheckCircle /> Protected Health Information (PHI) Compliant
@@ -142,8 +138,8 @@ function Register() {
               <span>Self-Care Portal</span>
             </div>
             <div className="auth-metric">
-              <strong>Physician</strong>
-              <span>Clinical Workspace</span>
+              <strong>24/7</strong>
+              <span>Online Booking</span>
             </div>
             <div className="auth-metric">
               <strong>Secure</strong>
@@ -186,50 +182,25 @@ function Register() {
 
             <div className="role-picker">
               <div className="role-picker__label">
-                <label>Account Type / Role *</label>
+                <label>Account Type</label>
                 <span style={{ fontSize: "0.72rem", color: "var(--muted)", fontWeight: 500 }}>
-                  Select portal type
+                  Patient Portal
                 </span>
               </div>
 
-              <div className="role-picker__grid">
-                <label className={`role-option ${selectedRole === "PATIENT" ? "role-option--active" : ""}`}>
-                  <input
-                    type="radio"
-                    value="PATIENT"
-                    {...register("role")}
-                  />
-                  <div className="role-option__icon">
-                    <FaUser />
-                  </div>
-                  <div className="role-option__content">
-                    <span className="role-option__title">Patient</span>
-                    <span className="role-option__desc">Appointments & health records</span>
-                  </div>
-                  <div className="role-option__check">
-                    <div className="role-option__check-dot" />
-                  </div>
-                </label>
-
-                <label className={`role-option ${selectedRole === "MEDECIN" ? "role-option--active" : ""}`}>
-                  <input
-                    type="radio"
-                    value="MEDECIN"
-                    {...register("role")}
-                  />
-                  <div className="role-option__icon">
-                    <FaUserMd />
-                  </div>
-                  <div className="role-option__content">
-                    <span className="role-option__title">Doctor</span>
-                    <span className="role-option__desc">Physician workspace & care</span>
-                  </div>
-                  <div className="role-option__check">
-                    <div className="role-option__check-dot" />
-                  </div>
-                </label>
+              <div className="role-option role-option--active" style={{ cursor: "default" }}>
+                <input type="hidden" value="PATIENT" {...register("role")} />
+                <div className="role-option__icon">
+                  <FaUser />
+                </div>
+                <div className="role-option__content">
+                  <span className="role-option__title">Patient</span>
+                  <span className="role-option__desc">Appointments & personal health records</span>
+                </div>
+                <div className="role-option__check">
+                  <div className="role-option__check-dot" />
+                </div>
               </div>
-              {errors.role?.message && <small className="field-error">{errors.role.message}</small>}
             </div>
 
             <div className="field-grid">
