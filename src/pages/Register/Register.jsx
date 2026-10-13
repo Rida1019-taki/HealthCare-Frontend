@@ -14,6 +14,7 @@ import {
   FaLock,
   FaShieldAlt,
   FaUser,
+  FaUserMd,
 } from "react-icons/fa";
 
 const schema = yup.object({
@@ -38,10 +39,16 @@ function Register() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      role: "PATIENT",
+    },
   });
+
+  const selectedRole = watch("role", "PATIENT");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -177,14 +184,50 @@ function Register() {
               {errors.email?.message && <small className="field-error">{errors.email.message}</small>}
             </div>
 
-            <div className="field-group">
-              <label htmlFor="role">Role</label>
-              <div className="input-shell">
-                <select id="role" {...register("role")}>
-                  <option value="">Choose a role</option>
-                  <option value="PATIENT">Patient</option>
-                  <option value="MEDECIN">Doctor</option>
-                </select>
+            <div className="role-picker">
+              <div className="role-picker__label">
+                <label>Account Type / Role *</label>
+                <span style={{ fontSize: "0.72rem", color: "var(--muted)", fontWeight: 500 }}>
+                  Select portal type
+                </span>
+              </div>
+
+              <div className="role-picker__grid">
+                <label className={`role-option ${selectedRole === "PATIENT" ? "role-option--active" : ""}`}>
+                  <input
+                    type="radio"
+                    value="PATIENT"
+                    {...register("role")}
+                  />
+                  <div className="role-option__icon">
+                    <FaUser />
+                  </div>
+                  <div className="role-option__content">
+                    <span className="role-option__title">Patient</span>
+                    <span className="role-option__desc">Appointments & health records</span>
+                  </div>
+                  <div className="role-option__check">
+                    <div className="role-option__check-dot" />
+                  </div>
+                </label>
+
+                <label className={`role-option ${selectedRole === "MEDECIN" ? "role-option--active" : ""}`}>
+                  <input
+                    type="radio"
+                    value="MEDECIN"
+                    {...register("role")}
+                  />
+                  <div className="role-option__icon">
+                    <FaUserMd />
+                  </div>
+                  <div className="role-option__content">
+                    <span className="role-option__title">Doctor</span>
+                    <span className="role-option__desc">Physician workspace & care</span>
+                  </div>
+                  <div className="role-option__check">
+                    <div className="role-option__check-dot" />
+                  </div>
+                </label>
               </div>
               {errors.role?.message && <small className="field-error">{errors.role.message}</small>}
             </div>
