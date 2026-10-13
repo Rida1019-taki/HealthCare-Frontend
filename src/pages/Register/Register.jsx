@@ -177,15 +177,39 @@ function Register() {
               {errors.email?.message && <small className="field-error">{errors.email.message}</small>}
             </div>
 
-            <div className="field-grid">
-              <div className="field-group">
-                <label htmlFor="role">Role</label>
+            <div className="field-group">
+              <label htmlFor="role">Role</label>
+              <div className="input-shell">
                 <select id="role" {...register("role")}>
                   <option value="">Choose a role</option>
                   <option value="PATIENT">Patient</option>
                   <option value="MEDECIN">Doctor</option>
                 </select>
-                {errors.role?.message && <small className="field-error">{errors.role.message}</small>}
+              </div>
+              {errors.role?.message && <small className="field-error">{errors.role.message}</small>}
+            </div>
+
+            <div className="field-grid">
+              <div className="field-group">
+                <label htmlFor="password">Password</label>
+                <div className="input-shell input-shell--password">
+                  <FaLock />
+                  <input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Create a strong password"
+                    {...register("password")}
+                  />
+                  <button
+                    type="button"
+                    className="icon-button icon-button--inline"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    onClick={() => setShowPassword((current) => !current)}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+                {errors.password?.message && <small className="field-error">{errors.password.message}</small>}
               </div>
 
               <div className="field-group">
@@ -209,28 +233,6 @@ function Register() {
                 </div>
                 {errors.confirmPassword?.message && <small className="field-error">{errors.confirmPassword.message}</small>}
               </div>
-            </div>
-
-            <div className="field-group">
-              <label htmlFor="password">Password</label>
-              <div className="input-shell input-shell--password">
-                <FaLock />
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Create a strong password"
-                  {...register("password")}
-                />
-                <button
-                  type="button"
-                  className="icon-button icon-button--inline"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword((current) => !current)}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-              {errors.password?.message && <small className="field-error">{errors.password.message}</small>}
             </div>
 
             <label className="checkbox">
